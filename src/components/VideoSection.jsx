@@ -26,7 +26,7 @@ export default function VideoSection() {
     },
     {
       code: 'REEL #02',
-      title: 'HIP-HOP MOTIVATION — PERFORMANCE CYPHER',
+      title: 'VEEZHNOTHALUM EZHUVEN — PERFORMANCE CYPHER',
       tag: 'STREET CYPHER',
       status: 'IN 24 FPS EDITORIAL ASSEMBLY',
       spec: '4K HIGH-CONTRAST • 808 SYNC',

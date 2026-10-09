@@ -394,8 +394,8 @@ export const musicData = [
     id: "hiphop-01",
     headlineId: "track-03",
     isHeadline: true,
-    title: "Hip-Hop Motivation",
-    tamilTitle: "வெற்றி வேகம் (808 Bass)",
+    title: "Veezhnthalum Ezhuven",
+    tamilTitle: "விழுந்தாலும் எழுவேன்",
     artist: "Mani (MC Squad)",
     genre: "Hip-Hop & Motivation",
     category: "HIPHOP",
@@ -406,7 +406,7 @@ export const musicData = [
     tagline: "Relentless Street Anthem • Hard-Hitting 808s & Heavy Bars",
     description: "High-octane motivational hip-hop fueled by rumbling 32Hz 808 sub-bass, aggressive drum pockets, and uncompromising lyrics of perseverance. Composed, written, and produced by Mani.",
     instagramUrl: "https://www.instagram.com/mc_squad_offical/",
-    lyrics: "எழுந்து நில்! ஓடு! உன்னை யாராலும் தடுத்து நிறுத்த முடியாது... 808 துடிக்கும் போது கனவுகள் வெல்லும்... Rise from the ashes, relentless street hunger!",
+    lyrics: "விழுந்தாலும் எழுவேன்! உன்னை யாராலும் தடுத்து நிறுத்த முடியாது... 808 துடிக்கும் போது கனவுகள் வெல்லும்... Rise from the ashes, relentless street hunger!",
     fullLyrics: `[STREET INTRO — 808 DROP]
 Never back down. Unstoppable hunger!
 வீழ்ந்த இடம் எதுவோ அதுவே நீ எழும் களம்!

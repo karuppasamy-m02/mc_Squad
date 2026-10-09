@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Play, ArrowDown, Film, Clapperboard, Aperture, Radio, Sliders, Users, Music } from 'lucide-react';
+import { Play, ArrowDown, Film, Clapperboard, Aperture, Radio, Sliders, Users, Music, Sparkles } from 'lucide-react';
 
-export default function Hero({ onOpenMusicWeb, onListenNow }) {
+export default function Hero({ onOpenMusicWeb, onListenNow, onReplayIntro }) {
   const [activeLens, setActiveLens] = useState('35mm');
   const [timecode, setTimecode] = useState('01:24:08:12');
 
@@ -120,8 +120,9 @@ export default function Hero({ onOpenMusicWeb, onListenNow }) {
       >
         {/* Left Column: Headlines & Actions */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
-          {/* Film Slate Badge */}
+          {/* Film Slate Badge (Clickable to Replay Cinema Screen Intro) */}
           <div
+            onClick={onReplayIntro}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -132,8 +133,10 @@ export default function Hero({ onOpenMusicWeb, onListenNow }) {
               backdropFilter: 'blur(8px)',
               marginBottom: '20px',
               borderRadius: '2px',
-              maxWidth: '100%'
+              maxWidth: '100%',
+              cursor: onReplayIntro ? 'pointer' : 'default'
             }}
+            title={onReplayIntro ? 'Click to replay Cinema Screen Opening Animation' : undefined}
           >
             <Clapperboard size={15} color="var(--brand-red)" />
             <span style={{
@@ -253,6 +256,42 @@ export default function Hero({ onOpenMusicWeb, onListenNow }) {
             >
               <Music size={15} color="var(--brand-red)" />
               MUSIC WEB ↗
+            </button>
+
+            {/* Prominent High-Impact Join The Crew Action */}
+            <button
+              onClick={() => scrollToSection('join-team')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '13px 22px',
+                backgroundColor: 'rgba(229, 9, 20, 0.16)',
+                border: '1.5px solid var(--brand-red)',
+                borderRadius: '4px',
+                color: '#FFFFFF',
+                fontWeight: 800,
+                fontSize: '0.82rem',
+                letterSpacing: '0.12em',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease',
+                boxShadow: '0 4px 18px rgba(229, 9, 20, 0.35)',
+                textTransform: 'uppercase'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--brand-red)';
+                e.currentTarget.style.boxShadow = '0 6px 26px rgba(229, 9, 20, 0.65)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(229, 9, 20, 0.16)';
+                e.currentTarget.style.boxShadow = '0 4px 18px rgba(229, 9, 20, 0.35)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              aria-label="Join MC Squad Crew"
+            >
+              <Sparkles size={16} color="var(--brand-red)" />
+              <span>JOIN THE CREW</span>
             </button>
           </div>
         </div>

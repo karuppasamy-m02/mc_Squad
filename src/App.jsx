@@ -11,11 +11,13 @@ import JoinTeamSection from './components/JoinTeamSection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import MusicPage from './components/MusicPage';
+import CinemaScreenIntro from './components/CinemaScreenIntro';
 import { musicData } from './data/music';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('cinema'); // 'cinema' | 'music'
   const [initialSongForMusicWeb, setInitialSongForMusicWeb] = useState(null);
+  const [showCinemaIntro, setShowCinemaIntro] = useState(true);
 
   // Sync hash routing (#music-web)
   useEffect(() => {
@@ -76,6 +78,11 @@ export default function App() {
   // Clean: No music player floating on the cinema site.
   return (
     <div className="relative min-h-screen bg-black text-light">
+      {/* 2.39:1 Professional Anamorphic Cinema Screen Opening Animation */}
+      {showCinemaIntro && (
+        <CinemaScreenIntro onComplete={() => setShowCinemaIntro(false)} />
+      )}
+
       {/* 35mm Subtle Film Grain Overlay */}
       <div className="film-grain-overlay" aria-hidden="true" />
 
@@ -85,7 +92,10 @@ export default function App() {
       {/* Main Content Sections */}
       <main>
         {/* Cinematic Hero */}
-        <Hero onOpenMusicWeb={() => openMusicWeb()} />
+        <Hero
+          onOpenMusicWeb={() => openMusicWeb()}
+          onReplayIntro={() => setShowCinemaIntro(true)}
+        />
 
         {/* Team of MC Squad (3 Core Members) */}
         <ArtistIntro />
