@@ -131,7 +131,7 @@ export default function MusicSection({ currentSong, isPlaying, onPlayToggle, onO
                   <Search size={18} color="var(--brand-red)" />
                   <input
                     type="text"
-                    placeholder="Search tracks, lyrics, mood..."
+                    placeholder="Search tracks, genre, mood..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{

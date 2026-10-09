@@ -23,11 +23,9 @@ import {
   Disc,
   Clock,
   ListMusic,
-  Mic2,
   RotateCcw,
   RotateCw,
   X,
-  Copy,
   ExternalLink,
   ChevronRight,
   ChevronDown,
@@ -243,7 +241,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
   // Audio Playback State & Refs
   const audioRef = useRef(null);
   const isSeekingRef = useRef(false);
-  const activeLyricRef = useRef(null);
 
   const [currentSong, setCurrentSong] = useState(initialSong || musicData[0]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -268,14 +265,11 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Drawers & Modals
-  const [showLyrics, setShowLyrics] = useState(false);
-  const [lyricsTab, setLyricsTab] = useState('synced'); // 'synced' | 'full'
   const [showQueue, setShowQueue] = useState(false);
   const [showMobileFullPlayer, setShowMobileFullPlayer] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [likedSongIds, setLikedSongIds] = useState(new Set(['love-01', 'family-01', 'hiphop-01']));
   const [copied, setCopied] = useState(false);
-  const [lyricsCopied, setLyricsCopied] = useState(false);
 
   // Initialize and handle incoming song
   useEffect(() => {
@@ -446,16 +440,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
     setCurrentTime(target);
   };
 
-  // Click-to-seek from Synced Lyrics line
-  const handleLyricLineClick = (time) => {
-    if (audioRef.current && isFinite(time)) {
-      audioRef.current.currentTime = time;
-      setCurrentTime(time);
-      if (!isPlaying) {
-        audioRef.current.play().then(() => setIsPlaying(true)).catch(console.warn);
-      }
-    }
-  };
 
   const toggleRepeatMode = () => {
     if (repeatMode === 'off') setRepeatMode('all');
@@ -492,15 +476,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
     }
   };
 
-  const handleCopyLyrics = () => {
-    if (navigator.clipboard) {
-      const textToCopy = currentSong?.fullLyrics || currentSong?.lyrics || '';
-      navigator.clipboard.writeText(textToCopy);
-      setLyricsCopied(true);
-      setTimeout(() => setLyricsCopied(false), 2000);
-    }
-  };
-
   // Filtered Tracks for Genre Vault
   const filteredSongs = useMemo(() => {
     return musicData.filter((song) => {
@@ -517,28 +492,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
       return matchesSearch;
     });
   }, [activeCategory, searchQuery]);
-
-  // Synced Lyrics Timeline Computation
-  const syncedLyrics = currentSong?.syncedLyrics || [];
-  const activeLyricIndex = useMemo(() => {
-    if (!syncedLyrics || syncedLyrics.length === 0) return -1;
-    for (let i = syncedLyrics.length - 1; i >= 0; i--) {
-      if (currentTime >= syncedLyrics[i].time) {
-        return i;
-      }
-    }
-    return 0;
-  }, [currentTime, syncedLyrics]);
-
-  // Auto-scroll active lyric into view
-  useEffect(() => {
-    if (showLyrics && activeLyricRef.current) {
-      activeLyricRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }
-  }, [activeLyricIndex, showLyrics]);
 
   return (
     <div
@@ -862,28 +815,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               )}
             </div>
 
-            {/* Live Synced Lyrics Toggle Button */}
-            <button
-              onClick={() => setShowLyrics(!showLyrics)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                backgroundColor: showLyrics ? 'var(--brand-red)' : 'rgba(255, 255, 255, 0.06)',
-                border: showLyrics ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.12)',
-                color: '#FFFFFF',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                fontSize: '0.76rem',
-                fontWeight: 700,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              title="Toggle Live Synced Lyrics"
-            >
-              <Mic2 size={13} />
-              <span className="hide-on-mobile">{showLyrics ? 'CLOSE LYRICS' : 'SYNCED LYRICS'}</span>
-            </button>
 
             {/* Back to Cinema Button */}
             <button
@@ -1319,7 +1250,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               </div>
             </div>
 
-            {/* Right: Clean Metadata & Synced Lyrics Live Preview */}
+            {/* Right: Clean Metadata & Track Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {/* Category & Format Badges */}
               <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px' }}>
@@ -1378,7 +1309,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 </p>
               </div>
 
-              {/* Live Synced Lyric Teaser Box (Timeline Feedback) */}
+              {/* Track Composition & Overview Card */}
               <div
                 style={{
                   backgroundColor: 'rgba(9, 9, 11, 0.7)',
@@ -1386,26 +1317,19 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                   borderTop: '1px solid rgba(255, 255, 255, 0.06)',
                   borderRight: '1px solid rgba(255, 255, 255, 0.06)',
                   borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-                  padding: '12px 18px',
+                  padding: '14px 18px',
                   borderRadius: '0 8px 8px 0',
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: '12px',
-                  cursor: 'pointer'
+                  flexDirection: 'column',
+                  gap: '4px'
                 }}
-                onClick={() => setShowLyrics(true)}
-                title="Click to open Synced Lyrics Timeline"
               >
-                <div>
-                  <span style={{ fontSize: '0.66rem', fontFamily: 'monospace', color: 'var(--brand-red)', fontWeight: 700, display: 'block', marginBottom: '2px' }}>
-                    LIVE TIMELINE LYRIC // CLICK TO EXPAND
-                  </span>
-                  <p style={{ fontSize: '0.92rem', color: '#FFFFFF', margin: 0, fontWeight: 600, fontStyle: 'italic', lineHeight: 1.4 }}>
-                    {syncedLyrics[activeLyricIndex]?.text || currentSong?.lyrics}
-                  </p>
-                </div>
-                <ChevronRight size={18} color="#A1A1AA" />
+                <span style={{ fontSize: '0.66rem', fontFamily: 'monospace', color: 'var(--brand-red)', fontWeight: 700, letterSpacing: '0.08em', display: 'block' }}>
+                  TRACK OVERVIEW // MASTER PRODUCTION
+                </span>
+                <p style={{ fontSize: '0.88rem', color: '#D4D4D8', margin: 0, fontWeight: 500, lineHeight: 1.5 }}>
+                  {currentSong?.description || currentSong?.tagline}
+                </p>
               </div>
 
               {/* Action Buttons */}
@@ -1431,27 +1355,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 >
                   {isPlaying ? <Pause size={16} fill="#FFFFFF" /> : <Play size={16} fill="#FFFFFF" />}
                   {isPlaying ? 'PAUSE MASTER' : `STREAM MASTER (${currentSong?.duration})`}
-                </button>
-
-                <button
-                  onClick={() => setShowLyrics(true)}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.12)',
-                    color: '#FFFFFF',
-                    padding: '12px 20px',
-                    borderRadius: '6px',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <Mic2 size={16} color="var(--brand-red)" />
-                  <span>VIEW TIMELINE LYRICS</span>
                 </button>
 
                 <a
@@ -1714,27 +1617,9 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                         {song.artist}
                       </p>
 
-                      <p style={{ fontSize: '0.82rem', color: '#71717A', lineHeight: 1.5, margin: '0 0 14px 0' }}>
+                      <p style={{ fontSize: '0.84rem', color: '#A1A1AA', lineHeight: 1.55, margin: '0 0 18px 0', flexGrow: 1 }}>
                         {song.tagline}
                       </p>
-
-                      {/* Lyric Line Preview */}
-                      <div
-                        style={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                          border: '1px solid rgba(255, 255, 255, 0.06)',
-                          padding: '10px 12px',
-                          borderRadius: '6px',
-                          fontSize: '0.8rem',
-                          color: '#A1A1AA',
-                          fontStyle: 'italic',
-                          lineHeight: 1.45,
-                          marginBottom: '18px',
-                          flexGrow: 1
-                        }}
-                      >
-                        "{song.lyrics}"
-                      </div>
 
                       {/* Card Action Row */}
                       <div
@@ -2132,246 +2017,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
         </section>
       )}
 
-      {/* 6. SPOTIFY LIVE SYNCED LYRICS DRAWER / CANVAS (MNC-LEVEL PREMIUM) */}
-      {showLyrics && (
-        <aside
-          className="spotify-lyrics-drawer-responsive"
-          style={{
-            position: 'fixed',
-            top: '70px',
-            right: '24px',
-            bottom: '100px',
-            width: 'clamp(320px, 35vw, 480px)',
-            backgroundColor: 'rgba(14, 14, 18, 0.96)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            borderRadius: '16px',
-            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(229, 9, 20, 0.15)',
-            zIndex: 80,
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-          aria-label="Spotify Synced Lyrics Canvas"
-        >
-          {/* Lyrics Header */}
-          <div
-            style={{
-              padding: '16px 20px',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: '#09090B'
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  backgroundColor: 'rgba(229, 9, 20, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
-                <Mic2 size={16} color="var(--brand-red)" />
-              </div>
-              <div>
-                <span style={{ fontSize: '0.86rem', fontWeight: 800, color: '#FFFFFF', display: 'block' }}>
-                  {currentSong?.title}
-                </span>
-                <span style={{ fontSize: '0.72rem', color: '#A1A1AA', fontFamily: 'monospace' }}>
-                  {currentSong?.tamilTitle || currentSong?.artist}
-                </span>
-              </div>
-            </div>
-
-            {/* View Mode Toggle: Synced vs Full Text */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                  borderRadius: '16px',
-                  padding: '2px',
-                  border: '1px solid rgba(255, 255, 255, 0.08)'
-                }}
-              >
-                <button
-                  onClick={() => setLyricsTab('synced')}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: lyricsTab === 'synced' ? 'var(--brand-red)' : 'transparent',
-                    color: '#FFFFFF',
-                    fontSize: '0.7rem',
-                    fontWeight: 700,
-                    cursor: 'pointer'
-                  }}
-                >
-                  SYNCED
-                </button>
-                <button
-                  onClick={() => setLyricsTab('full')}
-                  style={{
-                    padding: '4px 10px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: lyricsTab === 'full' ? 'var(--brand-red)' : 'transparent',
-                    color: '#FFFFFF',
-                    fontSize: '0.7rem',
-                    fontWeight: 700,
-                    cursor: 'pointer'
-                  }}
-                >
-                  FULL TEXT
-                </button>
-              </div>
-
-              <button
-                onClick={handleCopyLyrics}
-                style={{
-                  background: 'none',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  color: lyricsCopied ? '#10B981' : '#A1A1AA',
-                  padding: '6px',
-                  borderRadius: '6px',
-                  cursor: 'pointer'
-                }}
-                title={lyricsCopied ? 'Lyrics copied!' : 'Copy full lyrics'}
-              >
-                {lyricsCopied ? <Check size={14} /> : <Copy size={14} />}
-              </button>
-
-              <button
-                onClick={() => setShowLyrics(false)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#A1A1AA',
-                  cursor: 'pointer',
-                  padding: '4px'
-                }}
-                title="Close Lyrics"
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
-
-          {/* Lyrics Content Area */}
-          <div
-            style={{
-              padding: '24px 20px',
-              overflowY: 'auto',
-              flexGrow: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '16px'
-            }}
-          >
-            {lyricsTab === 'synced' && syncedLyrics.length > 0 ? (
-              // Spotify-Level Synced Timeline with Click-to-Seek
-              syncedLyrics.map((line, idx) => {
-                const isActive = idx === activeLyricIndex;
-                const isPast = idx < activeLyricIndex;
-
-                return (
-                  <div
-                    key={idx}
-                    ref={isActive ? activeLyricRef : null}
-                    onClick={() => handleLyricLineClick(line.time)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'baseline',
-                      gap: '12px',
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      backgroundColor: isActive ? 'rgba(229, 9, 20, 0.16)' : 'transparent',
-                      borderLeft: isActive ? '3px solid var(--brand-red)' : '3px solid transparent',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    className="synced-lyric-item"
-                    title={`Click to jump to ${formatTime(line.time)}`}
-                  >
-                    {/* Timestamp */}
-                    <span
-                      style={{
-                        fontSize: '0.72rem',
-                        fontFamily: 'monospace',
-                        color: isActive ? 'var(--brand-red)' : '#52525B',
-                        fontWeight: 700,
-                        minWidth: '42px',
-                        flexShrink: 0
-                      }}
-                    >
-                      {formatTime(line.time)}
-                    </span>
-
-                    {/* Verse Line Text */}
-                    <span
-                      style={{
-                        fontSize: isActive ? '1.18rem' : '0.98rem',
-                        fontWeight: isActive ? 800 : 500,
-                        color: isActive ? '#FFFFFF' : isPast ? '#A1A1AA' : '#71717A',
-                        lineHeight: 1.5,
-                        transition: 'all 0.2s ease',
-                        fontFamily: 'var(--font-headline, sans-serif)'
-                      }}
-                    >
-                      {line.text}
-                    </span>
-                  </div>
-                );
-              })
-            ) : (
-              // Full Text Document View
-              <div>
-                <p
-                  style={{
-                    fontSize: '1rem',
-                    lineHeight: 1.8,
-                    color: '#E4E4E7',
-                    whiteSpace: 'pre-line',
-                    margin: 0
-                  }}
-                >
-                  {currentSong?.fullLyrics || currentSong?.lyrics}
-                </p>
-                <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                  <p style={{ fontSize: '0.82rem', color: '#71717A', lineHeight: 1.5, margin: 0 }}>
-                    {currentSong?.description}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Lyrics Footer */}
-          <div
-            style={{
-              padding: '12px 20px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-              fontSize: '0.72rem',
-              color: '#71717A',
-              fontFamily: 'monospace',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              backgroundColor: '#09090B'
-            }}
-          >
-            <span>LYRICS BY MC SQUAD • PRODUCED BY MANI</span>
-            <span>{formatTime(currentTime)} / {currentSong?.duration}</span>
-          </div>
-        </aside>
-      )}
 
       {/* 7. SPOTIFY QUEUE DRAWER */}
       {showQueue && (
@@ -2728,21 +2373,8 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
 
           {/* Right: Tactile Quick Actions (Desktop) & Mobile Quick Play */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {/* Mobile-Only Quick Play & Lyrics */}
+            {/* Mobile-Only Quick Play */}
             <div className="mobile-dock-actions" style={{ display: 'none', alignItems: 'center', gap: '8px' }}>
-              <button
-                onClick={() => setShowLyrics(!showLyrics)}
-                className="tactile-circle-btn"
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  color: showLyrics ? 'var(--brand-red)' : '#A1A1AA'
-                }}
-                title="Lyrics"
-              >
-                <Mic2 size={16} />
-              </button>
-
               <button
                 onClick={() => handlePlayToggle(currentSong)}
                 className="tactile-circle-btn brand-red"
@@ -2764,19 +2396,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
             </div>
 
             {/* Desktop-Only Tools */}
-            <button
-              onClick={() => setShowLyrics(!showLyrics)}
-              className="tactile-circle-btn hide-on-mobile"
-              style={{
-                width: '38px',
-                height: '38px',
-                color: showLyrics ? 'var(--brand-red)' : '#A1A1AA'
-              }}
-              title="Lyrics View"
-            >
-              <Mic2 size={17} />
-            </button>
-
             <button
               onClick={() => setShowQueue(!showQueue)}
               className="tactile-circle-btn hide-on-mobile"
@@ -3131,12 +2750,13 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               </button>
             </div>
 
-            {/* Bottom Auxiliary Actions: Like, Lyrics, Share */}
+            {/* Bottom Auxiliary Actions: Like, Instagram, Share */}
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-around',
+                justifyContent: 'center',
+                gap: '24px',
                 paddingTop: '12px',
                 borderTop: '1px solid rgba(255, 255, 255, 0.08)'
               }}
@@ -3145,8 +2765,8 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 onClick={() => toggleLike(currentSong?.id)}
                 className="tactile-circle-btn"
                 style={{
-                  width: '42px',
-                  height: '42px',
+                  width: '44px',
+                  height: '44px',
                   color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#71717A'
                 }}
                 aria-label="Like track"
@@ -3154,33 +2774,27 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 <Heart size={18} fill={likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : 'none'} />
               </button>
 
-              <button
-                onClick={() => {
-                  setShowMobileFullPlayer(false);
-                  setShowLyrics(true);
-                }}
+              <a
+                href={currentSong?.instagramUrl || "https://www.instagram.com/mc_squad_offical/"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tactile-circle-btn"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  backgroundColor: 'rgba(229, 9, 20, 0.16)',
-                  border: '1px solid var(--brand-red)',
-                  color: '#FFFFFF',
-                  padding: '10px 20px',
-                  borderRadius: '24px',
-                  fontSize: '0.84rem',
-                  fontWeight: 700,
-                  cursor: 'pointer'
+                  width: '44px',
+                  height: '44px',
+                  color: '#E1306C',
+                  textDecoration: 'none'
                 }}
+                aria-label="Official Instagram"
+                title="Instagram @mc_squad_offical"
               >
-                <Mic2 size={16} color="var(--brand-red)" />
-                <span>SYNCED LYRICS</span>
-              </button>
+                <InstagramIcon size={18} />
+              </a>
 
               <button
                 onClick={handleShare}
                 className="tactile-circle-btn"
-                style={{ width: '42px', height: '42px', color: copied ? '#10B981' : '#A1A1AA' }}
+                style={{ width: '44px', height: '44px', color: copied ? '#10B981' : '#A1A1AA' }}
                 aria-label="Share track"
               >
                 {copied ? <Check size={18} /> : <Share2 size={18} />}
@@ -3246,12 +2860,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
         .spotify-table-row:hover {
           background-color: rgba(255, 255, 255, 0.05) !important;
         }
-        .synced-lyric-item:hover {
-          background-color: rgba(255, 255, 255, 0.06) !important;
-        }
-        .synced-lyric-item:hover span {
-          color: #FFFFFF !important;
-        }
         .queue-item-row:hover {
           background-color: rgba(255, 255, 255, 0.06) !important;
         }
@@ -3277,14 +2885,6 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
           }
           .mobile-dock-actions {
             display: flex !important;
-          }
-          .spotify-lyrics-drawer-responsive {
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 64px !important;
-            width: 100% !important;
-            border-radius: 0 !important;
           }
           .spotify-table-header,
           .spotify-table-row {
