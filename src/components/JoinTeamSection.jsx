@@ -4,6 +4,7 @@ import { WhatsAppIcon } from './Icons';
 
 const AVAILABLE_ROLES = [
   { id: 'junior-artist', label: 'Junior Artist / Actor', icon: '🎭', category: 'Performance' },
+  { id: 'choreographer', label: 'Choreographer / Dancer', icon: '🕺', category: 'Performance' },
   { id: 'singer', label: 'Singer / Vocalist', icon: '🎤', category: 'Music' },
   { id: 'lyricist', label: 'Lyricist / Songwriter', icon: '✍️', category: 'Music' },
   { id: 'music-composer', label: 'Music Composer / Beat Producer', icon: '🎹', category: 'Music' },

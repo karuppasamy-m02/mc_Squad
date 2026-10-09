@@ -22,7 +22,7 @@ export default function FilmSection() {
       aspect: '2.39:1 ANAMORPHIC',
       status: 'PRE-PRODUCTION',
       logline: 'An intense, character-driven story exploring street resilience and moral dilemmas with raw emotional realism.',
-      credits: 'Dir: Mani & Ragesh K.R • Music: Mani • Edit: Bharath Vaj • Cast: Nandha Kumar'
+      credits: 'Dir: Mani & Ragesh K.R • Music: Mani • Edit: Bharath Vaj • Choreo: Nandha Kumar'
     },
     {
       code: 'SLATE #02',
@@ -31,7 +31,7 @@ export default function FilmSection() {
       aspect: '35MM KODAK 2383',
       status: 'SCRIPT LOCKED',
       logline: 'A fast-paced, high-stakes visual piece celebrating independent brotherhood and unwavering character dignity.',
-      credits: 'Dir: Mani • DoP: Ragesh K.R • Cut: Bharath Vaj • Lead: Nandha Kumar'
+      credits: 'Dir: Mani • DoP: Ragesh K.R • Cut: Bharath Vaj & Kumaren • Choreo: Nandha Kumar'
     },
     {
       code: 'SLATE #03',
@@ -210,7 +210,7 @@ export default function FilmSection() {
                     marginBottom: '28px'
                   }}
                 >
-                  The MC Squad core crew—<strong>Mani</strong> (Founder, Music &amp; AD), <strong>Ragesh K.R</strong> (DoP &amp; Directing), <strong>Nandha Kumar</strong> (Lead Artist &amp; Actor), and <strong>Bharath Vaj</strong> (Chief Editor)—is actively staging independent feature narratives, 35mm widescreen shorts, and cinematic festival releases.
+                  The MC Squad core crew—<strong>Mani</strong> (Founder, Music &amp; AD), <strong>Ragesh K.R</strong> (DoP &amp; Directing), <strong>Nandha Kumar</strong> (Choreographer), <strong>Bharath Vaj</strong> (Chief Editor), and <strong>Kumaren</strong> (Singer &amp; Editor)—is actively staging independent feature narratives, 35mm widescreen shorts, and cinematic festival releases.
                 </p>
 
                 {/* Technical Parameters Matrix */}

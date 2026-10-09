@@ -14,7 +14,9 @@ import {
   Sparkles,
   Sliders,
   Film,
-  Volume2
+  Volume2,
+  Mic2,
+  Zap
 } from 'lucide-react';
 
 export default function ArtistIntro() {
@@ -26,7 +28,7 @@ export default function ArtistIntro() {
   const AUTO_SCROLL_DURATION = 4500; // 4.5 seconds per member
   const TICK_INTERVAL = 50; // update progress every 50ms
 
-  // The 4 Core Members of MC Squad
+  // The 5 Core Members of MC Squad
   const teamMembers = [
     {
       id: 1,
@@ -92,30 +94,30 @@ export default function ArtistIntro() {
       id: 3,
       num: '03',
       name: 'NANDHA KUMAR',
-      title: 'LEAD ARTIST & ACTOR',
-      primaryRole: 'LEAD ARTIST • CHARACTER ACTOR',
-      secondaryRole: 'Visual Performer & Screen Presence',
-      tag: 'LEAD ACTOR & SCREEN PRESENCE',
+      title: 'LEAD CHOREOGRAPHER',
+      primaryRole: 'LEAD CHOREOGRAPHER • DANCER',
+      secondaryRole: 'Movement Director & Urban Staging',
+      tag: 'CHOREOGRAPHY & URBAN MOVEMENT',
       isFounder: false,
       image: '/Team/Nandha.png',
-      imageAlt: 'Nandha Kumar — Lead Artist & Actor of MC Squad',
-      icon: Award,
+      imageAlt: 'Nandha Kumar — Lead Choreographer & Dancer of MC Squad',
+      icon: Zap,
       accentColor: '#f59e0b',
-      badges: ['LEAD ARTIST & ACTOR', 'METHOD PERFORMANCE', 'SCREEN PRESENCE'],
-      spec: 'METHOD ACTING • EMOTIONAL DEPTH • RAW INTENSITY',
-      bio: 'Front-line screen presence and lead actor of MC Squad. Delivers raw, grounded performances that bring intensity, emotional resonance, and authenticity to indie feature storylines and cinematic music visuals.',
-      pipeline: 'Character Realism, Dramatic Intensity & Screen Craft',
+      badges: ['LEAD CHOREOGRAPHER', 'URBAN HIP-HOP DANCE', 'MOVEMENT DIRECTOR'],
+      spec: 'HIP-HOP CYPHER • 808 BEAT LOCK • MOVEMENT DESIGN',
+      bio: 'Lead choreographer and movement director of MC Squad. Crafts high-voltage street choreographies, tight cyphers, and bodily rhythmic flows synchronized down to the millisecond with 808 sub-bass drops and cinematic camera moves.',
+      pipeline: 'Dance Choreography, Movement Direction & Stage Synchrony',
       gear: [
-        { label: 'ACTING STYLE', value: 'Method Acting & Raw Street Realism' },
-        { label: 'ROLES', value: 'Lead Protagonist & Intense Dramas' },
-        { label: 'EXPRESSION', value: 'Emotional Arc & Focused Screen Presence' },
-        { label: 'STAGE PRESENCE', value: 'Dynamic On-Camera Physicality' }
+        { label: 'DANCE STYLES', value: 'Street Hip-Hop, Popping & Locking' },
+        { label: 'BEAT SYNCHRONY', value: 'Low-End 808 Dynamic Accents' },
+        { label: 'STAGE CRAFT', value: 'Cinematic On-Camera Movement' },
+        { label: 'PERFORMANCE', value: 'High-Impact Music Video & Cyphers' }
       ],
       skills: [
-        'Lead Character Acting',
-        'Dramatic Dialogue Delivery',
-        'Method & Screen Performance',
-        'High-Intensity Emotional Range'
+        'Hip-Hop & Urban Choreography',
+        '808 Beat-Synced Dance Design',
+        'On-Camera Movement Direction',
+        'Cyphers & Stage Performance'
       ]
     },
     {
@@ -146,6 +148,36 @@ export default function ArtistIntro() {
         '24 FPS Offline & Online Cut',
         'Pacing & Dramatic Rhythm',
         'Post-Production Assembly'
+      ]
+    },
+    {
+      id: 5,
+      num: '05',
+      name: 'KUMAREN',
+      title: 'SINGER & FILM EDITOR',
+      primaryRole: 'SINGER • VOCALIST & FILM EDITOR',
+      secondaryRole: 'Playback Vocals & Timeline Assembly',
+      tag: 'VOCALS & CINEMATIC CUT',
+      isFounder: false,
+      image: null,
+      imageAlt: 'Kumaren — Singer & Film Editor of MC Squad',
+      icon: Mic2,
+      accentColor: '#ec4899',
+      badges: ['SINGER & VOCALIST', 'FILM EDITOR', 'VOCAL CADENCE'],
+      spec: 'TAMIL MELODIC VOCALS • CYPHER BARS • TIMELINE ASSEMBLY',
+      bio: 'Dual creative powerhouse in MC Squad commanding expressive vocal performances and meticulous timeline editing. Delivers energetic melodies and soulful Tamil vocal hooks while sharpening video edits with musical rhythm and surgical precision.',
+      pipeline: 'Vocal Performance, Melodic Delivery & Video Editorial Cut',
+      gear: [
+        { label: 'VOCAL PROFILE', value: 'Soulful Melody & High-Energy Hooks' },
+        { label: 'EDITING ENGINE', value: 'Precision Video & Audio Timelines' },
+        { label: 'TIMELINE STYLE', value: 'Lyrical Rhythm & Musical Continuity' },
+        { label: 'COLLABORATION', value: 'MC Squad Studio Sessions & Direct Cut' }
+      ],
+      skills: [
+        'Playback & Lead Tamil Vocals',
+        'Vocal Harmonization & Hooks',
+        'Creative Video Timeline Editing',
+        'Rhythmic Narrative Assembly'
       ]
     }
   ];
@@ -199,7 +231,7 @@ export default function ArtistIntro() {
         borderBottom: '1px solid var(--border-subtle)',
         overflow: 'hidden'
       }}
-      aria-label="Team of MC Squad — 4 Core Creators"
+      aria-label="Team of MC Squad — 5 Core Creators"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -253,7 +285,7 @@ export default function ArtistIntro() {
                   textTransform: 'uppercase'
                 }}
               >
-                THE CORE CREW • 4 VISIONARY CREATORS
+                THE MC SQUAD CREW • 5 CREATIVE PILLARS
               </span>
             </div>
 
@@ -306,7 +338,7 @@ export default function ArtistIntro() {
           </h2>
 
           <p className="section-subtitle" style={{ margin: '0 auto', fontSize: '1.02rem', color: 'var(--text-muted)' }}>
-            Four creative pillars commanding original sound, 35mm cinematography, lead artistic performance, and surgical film editing. 100% independent.
+            Five creative pillars commanding original sound, 35mm cinematography, high-voltage choreography, surgical editing, and expressive vocals. 100% independent.
           </p>
 
           {/* Auto-Scroll Progress Bar */}
@@ -334,12 +366,12 @@ export default function ArtistIntro() {
           )}
         </div>
 
-        {/* HEROIC 4-MEMBER CARDS LINEUP */}
+        {/* HEROIC 5-MEMBER CARDS LINEUP */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
-            gap: 'clamp(20px, 3vw, 28px)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 210px), 1fr))',
+            gap: 'clamp(16px, 2.5vw, 24px)',
             marginBottom: '40px'
           }}
         >
@@ -353,9 +385,11 @@ export default function ArtistIntro() {
                 onClick={() => handleSelectMember(member.id)}
                 style={{
                   backgroundColor: isSelected ? '#121212' : '#0B0B0B',
-                  border: isSelected ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.09)',
+                  border: isSelected
+                    ? `1px solid ${member.accentColor || 'var(--brand-red)'}`
+                    : '1px solid rgba(255, 255, 255, 0.09)',
                   borderRadius: '6px',
-                  padding: 'clamp(24px, 3vw, 32px)',
+                  padding: 'clamp(20px, 2.5vw, 28px)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -364,7 +398,7 @@ export default function ArtistIntro() {
                   transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
                   position: 'relative',
                   boxShadow: isSelected
-                    ? '0 20px 50px rgba(229, 9, 20, 0.18), 0 10px 30px rgba(0, 0, 0, 0.9)'
+                    ? `0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px ${member.accentColor ? `${member.accentColor}33` : 'rgba(229, 9, 20, 0.2)'}`
                     : '0 10px 30px rgba(0, 0, 0, 0.6)',
                   transform: isSelected ? 'translateY(-6px)' : 'translateY(0)'
                 }}
@@ -379,7 +413,7 @@ export default function ArtistIntro() {
                       left: 0,
                       right: 0,
                       height: '3px',
-                      backgroundColor: 'var(--brand-red)',
+                      backgroundColor: member.accentColor || 'var(--brand-red)',
                       borderTopLeftRadius: '6px',
                       borderTopRightRadius: '6px'
                     }}
@@ -402,7 +436,7 @@ export default function ArtistIntro() {
                       fontFamily: 'monospace',
                       fontWeight: 800,
                       letterSpacing: '0.14em',
-                      color: isSelected ? 'var(--brand-red)' : 'var(--text-dim)'
+                      color: isSelected ? (member.accentColor || 'var(--brand-red)') : 'var(--text-dim)'
                     }}
                   >
                     #{member.num} // PILLAR
@@ -445,44 +479,102 @@ export default function ArtistIntro() {
                   )}
                 </div>
 
-                {/* Small Clean Circle Portrait */}
+                {/* Clean Circle Portrait / Fallback Avatar */}
                 <div
                   style={{
-                    width: 'clamp(130px, 15vw, 160px)',
-                    height: 'clamp(130px, 15vw, 160px)',
+                    width: 'clamp(115px, 14vw, 150px)',
+                    height: 'clamp(115px, 14vw, 150px)',
                     borderRadius: '50%',
                     overflow: 'hidden',
-                    border: isSelected ? '3px solid var(--brand-red)' : '2px solid rgba(255, 255, 255, 0.18)',
+                    border: isSelected
+                      ? `3px solid ${member.accentColor || 'var(--brand-red)'}`
+                      : '2px solid rgba(255, 255, 255, 0.18)',
                     boxShadow: isSelected
-                      ? '0 12px 36px rgba(229, 9, 20, 0.35)'
+                      ? `0 12px 36px ${member.accentColor ? `${member.accentColor}44` : 'rgba(229, 9, 20, 0.35)'}`
                       : '0 8px 24px rgba(0, 0, 0, 0.7)',
-                    marginBottom: '20px',
+                    marginBottom: '18px',
                     position: 'relative',
                     flexShrink: 0,
-                    backgroundColor: '#000000',
+                    backgroundColor: '#0A0A0A',
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  <img
-                    src={member.image}
-                    alt={member.imageAlt}
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      display: 'block',
-                      transition: 'transform 0.4s ease'
-                    }}
-                    className="team-circle-img"
-                  />
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={member.imageAlt}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.4s ease'
+                      }}
+                      className="team-circle-img"
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: `radial-gradient(circle at 50% 40%, ${member.accentColor}33, #0a0a0a 85%)`,
+                        padding: '12px',
+                        textAlign: 'center'
+                      }}
+                      className="team-circle-img"
+                    >
+                      <div
+                        style={{
+                          width: '46px',
+                          height: '46px',
+                          borderRadius: '50%',
+                          backgroundColor: `${member.accentColor}22`,
+                          border: `1px solid ${member.accentColor}55`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginBottom: '6px'
+                        }}
+                      >
+                        <Icon size={24} color={member.accentColor} />
+                      </div>
+                      <span
+                        style={{
+                          fontSize: '0.62rem',
+                          fontFamily: 'monospace',
+                          fontWeight: 800,
+                          letterSpacing: '0.12em',
+                          color: '#FFFFFF'
+                        }}
+                      >
+                        {member.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '0.52rem',
+                          fontFamily: 'monospace',
+                          color: member.accentColor,
+                          fontWeight: 700,
+                          letterSpacing: '0.04em',
+                          marginTop: '2px'
+                        }}
+                      >
+                        SINGER • EDITOR
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Member Name */}
                 <h3
                   style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(1.9rem, 2.6vw, 2.4rem)',
+                    fontSize: 'clamp(1.7rem, 2.3vw, 2.2rem)',
                     letterSpacing: '0.05em',
                     color: '#FFFFFF',
                     margin: '0 0 6px 0',
@@ -495,12 +587,12 @@ export default function ArtistIntro() {
                 {/* Primary Role */}
                 <p
                   style={{
-                    fontSize: '0.82rem',
-                    color: isSelected ? 'var(--brand-red)' : 'var(--text-muted)',
+                    fontSize: '0.78rem',
+                    color: isSelected ? (member.accentColor || 'var(--brand-red)') : 'var(--text-muted)',
                     fontWeight: 800,
-                    letterSpacing: '0.1em',
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
-                    margin: '0 0 16px 0',
+                    margin: '0 0 14px 0',
                     lineHeight: 1.4,
                     minHeight: '38px',
                     display: 'flex',
@@ -812,7 +904,7 @@ export default function ArtistIntro() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span className="pulsing-dot" style={{ backgroundColor: 'var(--brand-red)' }} />
             <span style={{ color: '#FFF', fontWeight: 700 }}>MC SQUAD CREW FORMULA:</span>
-            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (LEAD ARTIST) + BHARATH VAJ (EDITING)</span>
+            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (CHOREOGRAPHER) + BHARATH VAJ (EDITOR) + KUMAREN (SINGER &amp; EDITOR)</span>
           </div>
 
           <div style={{ display: 'flex', gap: '8px' }}>
