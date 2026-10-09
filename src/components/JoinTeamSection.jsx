@@ -3,22 +3,22 @@ import { Send, CheckCircle2, User, Phone, MapPin, Briefcase, Award, Link as Link
 import { WhatsAppIcon } from './Icons';
 
 const AVAILABLE_ROLES = [
-  { id: 'junior-artist', label: 'Junior Artist / Actor', tamil: 'ஜூனியர் ஆர்ட்டிஸ்ட் / நடிகர்', icon: '🎭' },
-  { id: 'singer', label: 'Singer / Vocalist', tamil: 'பாடகர் / பாடகி', icon: '🎤' },
-  { id: 'lyricist', label: 'Lyricist / Songwriter', tamil: 'பாடலாசிரியர்', icon: '✍️' },
-  { id: 'music-composer', label: 'Music Composer / Beat Producer', tamil: 'இசையமைப்பாளர் / பீட் மேக்கர்', icon: '🎹' },
-  { id: 'cinematographer', label: 'Cinematographer / DOP', tamil: 'ஒளிப்பதிவாளர் (DOP)', icon: '🎥' },
-  { id: 'video-editor', label: 'Video Editor / Colorist', tamil: 'வீடியோ எடிட்டர் / கலரிஸ்ட்', icon: '🎬' },
-  { id: 'scriptwriter', label: 'Scriptwriter / Dialogue Writer', tamil: 'திரைக்கதை / வசனம்', icon: '📝' },
-  { id: 'sound-engineer', label: 'Sound Designer / Audio Mixing', tamil: 'ஒலி வடிவமைப்பாளர்', icon: '🔊' },
-  { id: 'production-crew', label: 'Assistant Director / Crew', tamil: 'உதவி இயக்குநர் / தயாரிப்பு', icon: '📽️' },
-  { id: 'other', label: 'Other Talents / All-Rounder', tamil: 'இதர கலைத் திறமைகள்', icon: '⭐' },
+  { id: 'junior-artist', label: 'Junior Artist / Actor', icon: '🎭', category: 'Performance' },
+  { id: 'singer', label: 'Singer / Vocalist', icon: '🎤', category: 'Music' },
+  { id: 'lyricist', label: 'Lyricist / Songwriter', icon: '✍️', category: 'Music' },
+  { id: 'music-composer', label: 'Music Composer / Beat Producer', icon: '🎹', category: 'Music' },
+  { id: 'cinematographer', label: 'Cinematographer / DOP', icon: '🎥', category: 'Camera' },
+  { id: 'video-editor', label: 'Video Editor / Colorist', icon: '🎬', category: 'Post-Production' },
+  { id: 'scriptwriter', label: 'Scriptwriter / Dialogue Writer', icon: '📝', category: 'Direction' },
+  { id: 'sound-engineer', label: 'Sound Designer / Audio Mixing', icon: '🔊', category: 'Audio' },
+  { id: 'production-crew', label: 'Assistant Director / Production Crew', icon: '📽️', category: 'Production' },
+  { id: 'other', label: 'Other Creative Talents', icon: '⭐', category: 'Special' },
 ];
 
 const EXPERIENCE_LEVELS = [
-  { id: 'fresher', label: 'Fresher / Beginner', tamil: 'ஆரம்ப நிலை / புதியவர்' },
-  { id: '1-2-years', label: '1 - 2 Years Experience', tamil: '1 - 2 ஆண்டுகள் அனுபவம்' },
-  { id: 'experienced', label: '3+ Years / Professional', tamil: 'அனுபவம் வாய்ந்தவர்' },
+  { id: 'fresher', label: 'Fresher / Beginner' },
+  { id: '1-2-years', label: '1 - 2 Years Experience' },
+  { id: 'experienced', label: '3+ Years / Professional' },
 ];
 
 export default function JoinTeamSection() {
@@ -57,17 +57,17 @@ export default function JoinTeamSection() {
     e.preventDefault();
 
     if (!formData.name.trim()) {
-      setErrorMessage('Please enter your full name (உங்கள் பெயரை உள்ளிடவும்)');
+      setErrorMessage('Please enter your full name.');
       return;
     }
 
     if (!formData.phone.trim()) {
-      setErrorMessage('Please enter your WhatsApp phone number (உங்கள் வாட்ஸ்அப் எண்ணை உள்ளிடவும்)');
+      setErrorMessage('Please enter your WhatsApp contact number.');
       return;
     }
 
     if (!formData.city.trim()) {
-      setErrorMessage('Please enter your city/location (உங்கள் ஊரை உள்ளிடவும்)');
+      setErrorMessage('Please enter your city/location.');
       return;
     }
 
@@ -76,31 +76,31 @@ export default function JoinTeamSection() {
       return;
     }
 
-    // Map role IDs to human readable labels
+    // Map role IDs to clean English labels
     const roleLabels = selectedRoles.map((rId) => {
       const match = AVAILABLE_ROLES.find((r) => r.id === rId);
-      return match ? `${match.icon} ${match.label} (${match.tamil})` : rId;
+      return match ? `${match.icon} ${match.label}` : rId;
     });
 
     const expLabel = EXPERIENCE_LEVELS.find((e) => e.id === formData.experience)?.label || formData.experience;
 
-    // Compose formatted WhatsApp Message
+    // Compose formatted WhatsApp Message in clean professional English
     const textLines = [
-      '🎬 *NEW MC SQUAD CREW APPLICATION* 🎬',
+      '🎬 *MC SQUAD — CREW APPLICATION* 🎬',
       '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
       `👤 *Candidate Name:* ${formData.name.trim()}`,
-      `📱 *WhatsApp Contact:* ${formData.phone.trim()}`,
+      `📱 *WhatsApp Number:* ${formData.phone.trim()}`,
       `📍 *Location / City:* ${formData.city.trim()}`,
       '',
-      `🎭 *Interested Role(s):*`,
+      `🎯 *Interested Role(s):*`,
       ...roleLabels.map((rl) => `  • ${rl}`),
       '',
       `⭐ *Experience Level:* ${expLabel}`,
       formData.portfolio.trim() ? `🔗 *Portfolio / Demo Link:* ${formData.portfolio.trim()}` : null,
       formData.message.trim() ? `💬 *About / Message:* ${formData.message.trim()}` : null,
       '━━━━━━━━━━━━━━━━━━━━━━━━━━━━',
-      '📩 _Submitted via MC Squad Official Website_',
-      `🕒 _Time: ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}_`
+      '📩 _Submitted via MC Squad Official Portal_',
+      `🕒 _Date: ${new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' })}_`
     ].filter(Boolean);
 
     const fullMessage = textLines.join('\n');
@@ -108,7 +108,6 @@ export default function JoinTeamSection() {
 
     setIsSubmitted(true);
 
-    // Open WhatsApp in new tab/app
     setTimeout(() => {
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     }, 400);
@@ -158,17 +157,17 @@ export default function JoinTeamSection() {
         {/* Section Header */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 48px auto' }}>
           <div className="title-tag">
-            <span>MC SQUAD TALENT RECRUITMENT • இணைந்திடுங்கள்</span>
+            <span>MC SQUAD TALENT RECRUITMENT • OFFICIAL ROSTER</span>
           </div>
           <h2 className="section-title">
             JOIN THE <span style={{ color: 'var(--brand-red)' }}>CREW</span>
           </h2>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>
-            We are actively scouting passionate artists, singers, lyricists, actors & technicians for MC Squad's upcoming indie feature films, original music videos, and cinematic projects. Fill out the application below — it will be delivered directly to our founder Mani on WhatsApp!
+            We are actively scouting passionate artists, singers, lyricists, actors, and technicians for MC Squad's upcoming indie feature films, original music videos, and productions. Complete the form below to connect directly with founder Mani on WhatsApp.
           </p>
         </div>
 
-        {/* Form Container */}
+        {/* Form Card */}
         <div
           style={{
             maxWidth: '860px',
@@ -206,10 +205,10 @@ export default function JoinTeamSection() {
                   marginBottom: '10px'
                 }}
               >
-                Application Formatted!
+                Application Submitted!
               </h3>
               <p style={{ color: '#A1A1AA', fontSize: '0.98rem', maxWidth: '520px', margin: '0 auto 24px auto', lineHeight: 1.6 }}>
-                Your details have been compiled and sent to founder <strong style={{ color: '#FFFFFF' }}>Mani (+91 8270374293)</strong> via WhatsApp. If WhatsApp did not open automatically, tap the button below.
+                Your details have been compiled and sent to founder <strong style={{ color: '#FFFFFF' }}>Mani (+91 8270374293)</strong> via WhatsApp. If WhatsApp did not open automatically, click the button below.
               </p>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center' }}>
@@ -239,7 +238,7 @@ export default function JoinTeamSection() {
                   className="btn-secondary"
                   style={{ borderRadius: '8px', padding: '12px 24px' }}
                 >
-                  SUBMIT ANOTHER FORM
+                  SUBMIT ANOTHER APPLICATION
                 </button>
               </div>
             </div>
@@ -269,12 +268,12 @@ export default function JoinTeamSection() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
                   gap: '20px',
                   marginBottom: '28px'
                 }}
               >
-                {/* Name */}
+                {/* Full Name */}
                 <div>
                   <label
                     htmlFor="team-name"
@@ -290,7 +289,7 @@ export default function JoinTeamSection() {
                     }}
                   >
                     <User size={15} color="var(--brand-red)" />
-                    FULL NAME (பெயர்) <span style={{ color: 'var(--brand-red)' }}>*</span>
+                    FULL NAME <span style={{ color: 'var(--brand-red)' }}>*</span>
                   </label>
                   <input
                     id="team-name"
@@ -332,7 +331,7 @@ export default function JoinTeamSection() {
                     }}
                   >
                     <Phone size={15} color="#25D366" />
-                    WHATSAPP NUMBER (வாட்ஸ்அப் எண்) <span style={{ color: 'var(--brand-red)' }}>*</span>
+                    WHATSAPP NUMBER <span style={{ color: 'var(--brand-red)' }}>*</span>
                   </label>
                   <input
                     id="team-phone"
@@ -374,7 +373,7 @@ export default function JoinTeamSection() {
                     }}
                   >
                     <MapPin size={15} color="var(--brand-red)" />
-                    CITY / HOMETOWN (வசிக்கும் ஊர்) <span style={{ color: 'var(--brand-red)' }}>*</span>
+                    CITY / LOCATION <span style={{ color: 'var(--brand-red)' }}>*</span>
                   </label>
                   <input
                     id="team-city"
@@ -417,7 +416,7 @@ export default function JoinTeamSection() {
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Briefcase size={15} color="var(--brand-red)" />
-                    INTERESTED ROLE / FIELD (ஆர்வமுள்ள துறை) <span style={{ color: 'var(--brand-red)' }}>*</span>
+                    INTERESTED ROLE / DOMAIN <span style={{ color: 'var(--brand-red)' }}>*</span>
                   </span>
                   <span style={{ fontSize: '0.74rem', color: '#71717A', fontWeight: 500 }}>
                     (Select one or multiple)
@@ -427,7 +426,7 @@ export default function JoinTeamSection() {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))',
                     gap: '10px'
                   }}
                 >
@@ -441,8 +440,8 @@ export default function JoinTeamSection() {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px',
-                          padding: '10px 14px',
+                          gap: '12px',
+                          padding: '12px 14px',
                           borderRadius: '8px',
                           backgroundColor: isSelected ? 'rgba(229, 9, 20, 0.16)' : '#14161E',
                           border: isSelected ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.08)',
@@ -452,12 +451,12 @@ export default function JoinTeamSection() {
                           transition: 'all 0.15s ease'
                         }}
                       >
-                        <span style={{ fontSize: '1.15rem' }}>{role.icon}</span>
+                        <span style={{ fontSize: '1.25rem' }}>{role.icon}</span>
                         <div style={{ overflow: 'hidden' }}>
                           <span
                             style={{
                               display: 'block',
-                              fontSize: '0.84rem',
+                              fontSize: '0.86rem',
                               fontWeight: isSelected ? 700 : 500,
                               color: isSelected ? '#FFFFFF' : '#E4E4E7'
                             }}
@@ -467,11 +466,13 @@ export default function JoinTeamSection() {
                           <span
                             style={{
                               display: 'block',
-                              fontSize: '0.72rem',
-                              color: isSelected ? 'var(--brand-red)' : '#71717A'
+                              fontSize: '0.7rem',
+                              color: isSelected ? 'var(--brand-red)' : '#71717A',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.06em'
                             }}
                           >
-                            {role.tamil}
+                            {role.category}
                           </span>
                         </div>
                       </button>
@@ -484,7 +485,7 @@ export default function JoinTeamSection() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
                   gap: '20px',
                   marginBottom: '28px'
                 }}
@@ -505,7 +506,7 @@ export default function JoinTeamSection() {
                     }}
                   >
                     <Award size={15} color="var(--brand-red)" />
-                    EXPERIENCE LEVEL (அனுபவம்)
+                    EXPERIENCE LEVEL
                   </label>
                   <select
                     id="team-experience"
@@ -526,7 +527,7 @@ export default function JoinTeamSection() {
                   >
                     {EXPERIENCE_LEVELS.map((exp) => (
                       <option key={exp.id} value={exp.id} style={{ backgroundColor: '#161820', color: '#FFF' }}>
-                        {exp.label} ({exp.tamil})
+                        {exp.label}
                       </option>
                     ))}
                   </select>
@@ -548,7 +549,7 @@ export default function JoinTeamSection() {
                     }}
                   >
                     <LinkIcon size={15} color="var(--brand-red)" />
-                    DEMO / PORTFOLIO LINK (ஆடியோ/வீடியோ லிங்க்)
+                    DEMO / PORTFOLIO LINK
                   </label>
                   <input
                     id="team-portfolio"
@@ -590,13 +591,13 @@ export default function JoinTeamSection() {
                   }}
                 >
                   <MessageSquare size={15} color="var(--brand-red)" />
-                  ABOUT YOURSELF / SHORT NOTE (உங்களைப் பற்றி சுருக்கமாக)
+                  ABOUT YOURSELF / MESSAGE
                 </label>
                 <textarea
                   id="team-message"
                   name="message"
                   rows={3}
-                  placeholder="Share a few words about your passion, previous projects, or how you want to contribute..."
+                  placeholder="Share a few words about your passion, past work, or why you want to collaborate with MC Squad..."
                   value={formData.message}
                   onChange={handleChange}
                   style={{
@@ -668,7 +669,7 @@ export default function JoinTeamSection() {
                 >
                   <Sparkles size={14} color="#E50914" />
                   <span>
-                    Direct application sent to Founder <strong style={{ color: '#FFFFFF' }}>Mani (+91 8270374293)</strong>
+                    Direct application transmitted to Founder <strong style={{ color: '#FFFFFF' }}>Mani (+91 8270374293)</strong>
                   </span>
                 </div>
               </div>

@@ -48,10 +48,17 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const backToCinema = () => {
+  const backToCinema = (sectionHash = '#home') => {
     setCurrentView('cinema');
-    window.location.hash = '#home';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.location.hash = sectionHash;
+    setTimeout(() => {
+      const el = document.querySelector(sectionHash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 60);
   };
 
   // If user is on the Separate Music Page (Spotify-level Full Music Experience)

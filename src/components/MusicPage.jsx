@@ -30,7 +30,8 @@ import {
   Copy,
   ExternalLink,
   ChevronRight,
-  ChevronDown
+  ChevronDown,
+  Menu
 } from 'lucide-react';
 import { musicData, headlineTracks, spotifyTheme } from '../data/music';
 import { InstagramIcon } from './Icons';
@@ -51,6 +52,192 @@ const formatTime = (seconds) => {
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 };
+
+// Spotify-Grade Track Slider Component (Modeled after Reference Screenshots)
+function SpotifyTrackSlider({
+  currentTime,
+  duration,
+  onSeekStart,
+  onSeekChange,
+  onSeekCommit,
+  isPlaying,
+  layout = 'inline', // 'inline' for Desktop Dock, 'stacked' for Mobile Modal
+  style = {}
+}) {
+  const [isHovered, setIsHovered] = useState(false);
+  const percent = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: layout === 'stacked' ? 'column' : 'row',
+        alignItems: layout === 'stacked' ? 'stretch' : 'center',
+        gap: layout === 'stacked' ? '6px' : '12px',
+        width: '100%',
+        ...style
+      }}
+    >
+      {/* Inline Left Timestamp (Current Time) */}
+      {layout === 'inline' && (
+        <span
+          style={{
+            fontSize: '0.74rem',
+            fontFamily: 'monospace',
+            color: isPlaying ? '#FFFFFF' : '#A1A1AA',
+            fontWeight: isPlaying ? 700 : 500,
+            minWidth: '40px',
+            textAlign: 'right',
+            letterSpacing: '0.02em',
+            userSelect: 'none'
+          }}
+        >
+          {formatTime(currentTime)}
+        </span>
+      )}
+
+      {/* Main Track Slider Box */}
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          cursor: 'pointer',
+          flexGrow: 1
+        }}
+      >
+        {/* Unplayed Track Background Line */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            height: isHovered ? '6px' : '4px',
+            borderRadius: '999px',
+            backgroundColor: 'rgba(255, 255, 255, 0.16)',
+            boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.5)',
+            transition: 'height 0.15s ease'
+          }}
+        />
+
+        {/* Played Progress Gradient Line (Red to Coral Red) */}
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            width: `${percent}%`,
+            height: isHovered ? '6px' : '4px',
+            borderRadius: '999px',
+            background: 'linear-gradient(90deg, #E50914 0%, #FF4D58 100%)',
+            boxShadow: isHovered ? '0 0 12px rgba(229, 9, 20, 0.7)' : '0 0 4px rgba(229, 9, 20, 0.3)',
+            transition: 'height 0.15s ease',
+            pointerEvents: 'none'
+          }}
+        />
+
+        {/* Luminous Solid White Circular Thumb Knob */}
+        <div
+          style={{
+            position: 'absolute',
+            left: `${percent}%`,
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: isHovered ? '15px' : '13px',
+            height: isHovered ? '15px' : '13px',
+            borderRadius: '50%',
+            backgroundColor: '#FFFFFF',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 77, 88, 0.5)',
+            border: '2px solid rgba(255, 255, 255, 0.95)',
+            pointerEvents: 'none',
+            transition: 'width 0.15s ease, height 0.15s ease',
+            zIndex: 2
+          }}
+        />
+
+        {/* Seamless Invisible HTML5 Range Input on Top */}
+        <input
+          type="range"
+          min="0"
+          max={duration || 100}
+          step="0.1"
+          value={currentTime}
+          onMouseDown={onSeekStart}
+          onTouchStart={onSeekStart}
+          onChange={onSeekChange}
+          onMouseUp={onSeekCommit}
+          onTouchEnd={onSeekCommit}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: 'pointer',
+            margin: 0,
+            zIndex: 3
+          }}
+          aria-label="Seek track position"
+        />
+      </div>
+
+      {/* Inline Right Timestamp (Total Duration) */}
+      {layout === 'inline' && (
+        <span
+          style={{
+            fontSize: '0.74rem',
+            fontFamily: 'monospace',
+            color: '#71717A',
+            minWidth: '40px',
+            textAlign: 'left',
+            letterSpacing: '0.02em',
+            userSelect: 'none'
+          }}
+        >
+          {formatTime(duration)}
+        </span>
+      )}
+
+      {/* Stacked Timestamps Underneath Track (Mobile / Modal View) */}
+      {layout === 'stacked' && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            padding: '2px 2px 0 2px'
+          }}
+        >
+          <span
+            style={{
+              fontSize: '0.78rem',
+              fontFamily: 'monospace',
+              color: isPlaying ? '#FFFFFF' : '#A1A1AA',
+              fontWeight: 600
+            }}
+          >
+            {formatTime(currentTime)}
+          </span>
+          <span
+            style={{
+              fontSize: '0.78rem',
+              fontFamily: 'monospace',
+              color: '#71717A',
+              fontWeight: 500
+            }}
+          >
+            {formatTime(duration)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function MusicPage({ onBackToCinema, initialSong = null }) {
   // Audio Playback State & Refs
@@ -85,6 +272,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
   const [lyricsTab, setLyricsTab] = useState('synced'); // 'synced' | 'full'
   const [showQueue, setShowQueue] = useState(false);
   const [showMobileFullPlayer, setShowMobileFullPlayer] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [likedSongIds, setLikedSongIds] = useState(new Set(['love-01', 'family-01', 'hiphop-01']));
   const [copied, setCopied] = useState(false);
   const [lyricsCopied, setLyricsCopied] = useState(false);
@@ -395,18 +583,22 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
         }}
       />
 
-      {/* 1. TOP MNC-LEVEL SPOTIFY NAVIGATION BAR */}
+      {/* 1. TOP MNC-LEVEL NAVIGATION BAR (MATCHING MAIN CINEMA NAVBAR EXACTLY) */}
       <header
         style={{
           position: 'sticky',
           top: 0,
-          zIndex: 40,
-          backgroundColor: 'rgba(9, 9, 11, 0.92)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          left: 0,
+          width: '100%',
+          zIndex: 50,
+          backgroundColor: 'rgba(8, 8, 8, 0.95)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '14px 0'
+          padding: '10px 0',
+          transition: 'all 0.3s ease'
         }}
+        aria-label="MC Squad Music Vault Navigation"
       >
         <div
           className="container"
@@ -417,90 +609,260 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
             gap: '16px'
           }}
         >
-          {/* Studio Brand */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          {/* Top ONLY Logo: Enlarged, Crisp, Clean, Exactly as in Navbar.jsx */}
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              onBackToCinema('#home');
+            }}
+            style={{
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              lineHeight: 0
+            }}
+            aria-label="MC Squad Home"
+          >
             <img
-              src="/logo.png"
+              src="/logo-darkmode.png"
               alt="MC Squad"
               style={{
-                height: '38px',
+                height: 'clamp(46px, 5.5vw, 58px)',
                 width: 'auto',
                 objectFit: 'contain',
                 display: 'block'
               }}
             />
-            <div style={{ borderLeft: '1px solid rgba(255, 255, 255, 0.15)', paddingLeft: '12px' }}>
-              <span
-                style={{
-                  fontSize: '0.66rem',
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '0.12em',
-                  color: 'var(--brand-red)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                <span className="pulsing-dot" style={{ backgroundColor: 'var(--brand-red)', width: '6px', height: '6px' }} />
-                MANI STUDIO // DISCOGRAPHY
-              </span>
-              <span
-                style={{
-                  fontSize: '0.88rem',
-                  fontWeight: 800,
-                  color: '#FFFFFF',
-                  fontFamily: 'var(--font-headline)',
-                  letterSpacing: '0.02em'
-                }}
-              >
-                MC SQUAD MUSIC VAULT
-              </span>
-            </div>
-          </div>
+          </a>
 
-          {/* Search Box */}
-          <div
+          {/* Desktop Nav Links (Identical to Main Cinema Nav) */}
+          <nav
             style={{
-              display: 'flex',
+              display: 'none',
               alignItems: 'center',
-              gap: '8px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '8px 16px',
-              width: '100%',
-              maxWidth: '340px'
+              gap: '24px'
             }}
-            className="hide-on-mobile"
+            className="desktop-nav"
           >
-            <Search size={15} color="#A1A1AA" />
-            <input
-              type="text"
-              placeholder="Search 20 tracks, lyrics, moods..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{
-                background: 'none',
-                border: 'none',
-                outline: 'none',
-                color: '#FFFFFF',
-                fontSize: '0.84rem',
-                width: '100%'
+            <a
+              href="#home"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#home');
               }}
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', padding: 0 }}
-              >
-                <X size={14} />
-              </button>
-            )}
-          </div>
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              HOME
+            </a>
 
-          {/* Right Header Actions */}
+            <a
+              href="#team"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#team');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              TEAM
+            </a>
+
+            <a
+              href="#films"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#films');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              FILMS
+            </a>
+
+            {/* Current Active Section: MUSIC WEB */}
+            <span
+              className="nav-link-item active"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                letterSpacing: '0.14em',
+                color: '#FFFFFF',
+                position: 'relative',
+                padding: '6px 0',
+                cursor: 'pointer'
+              }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              MUSIC WEB
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '2px',
+                  backgroundColor: 'var(--brand-red)'
+                }}
+              />
+            </span>
+
+            <a
+              href="#videos"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#videos');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              VIDEOS
+            </a>
+
+            <a
+              href="#join-team"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#join-team');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              JOIN CREW
+            </a>
+
+            <a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#about');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              ABOUT
+            </a>
+
+            <a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCinema('#contact');
+              }}
+              className="nav-link-item"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textDecoration: 'none',
+                color: 'var(--text-muted)',
+                padding: '6px 0',
+                transition: 'color 0.2s ease'
+              }}
+            >
+              CONTACT
+            </a>
+          </nav>
+
+          {/* Right Header Actions & Tools */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Search Box on Desktop */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '24px',
+                padding: '7px 14px',
+                maxWidth: '200px'
+              }}
+              className="hide-on-mobile"
+            >
+              <Search size={14} color="#A1A1AA" />
+              <input
+                type="text"
+                placeholder="Search tracks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  outline: 'none',
+                  color: '#FFFFFF',
+                  fontSize: '0.82rem',
+                  width: '100%'
+                }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  style={{ background: 'none', border: 'none', color: '#A1A1AA', cursor: 'pointer', padding: 0 }}
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
+
+            {/* Live Synced Lyrics Toggle Button */}
             <button
               onClick={() => setShowLyrics(!showLyrics)}
               style={{
@@ -510,64 +872,176 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 backgroundColor: showLyrics ? 'var(--brand-red)' : 'rgba(255, 255, 255, 0.06)',
                 border: showLyrics ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.12)',
                 color: '#FFFFFF',
-                padding: '8px 14px',
+                padding: '8px 12px',
                 borderRadius: '6px',
-                fontSize: '0.78rem',
+                fontSize: '0.76rem',
                 fontWeight: 700,
                 cursor: 'pointer',
                 transition: 'all 0.2s ease'
               }}
               title="Toggle Live Synced Lyrics"
             >
-              <Mic2 size={14} />
-              <span>{showLyrics ? 'CLOSE LYRICS' : 'SYNCED LYRICS'}</span>
+              <Mic2 size={13} />
+              <span className="hide-on-mobile">{showLyrics ? 'CLOSE LYRICS' : 'SYNCED LYRICS'}</span>
             </button>
 
+            {/* Back to Cinema Button */}
             <button
-              onClick={handleShare}
+              onClick={() => onBackToCinema('#home')}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '6px',
-                backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                color: '#E4E4E7',
-                padding: '8px 14px',
-                borderRadius: '6px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                cursor: 'pointer'
-              }}
-              title="Share Link"
-            >
-              {copied ? <Check size={14} color="#10B981" /> : <Share2 size={14} />}
-              {copied ? 'COPIED' : 'SHARE'}
-            </button>
-
-            <button
-              onClick={onBackToCinema}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
+                gap: '7px',
                 backgroundColor: 'var(--brand-red)',
                 border: 'none',
                 color: '#FFFFFF',
-                padding: '8px 18px',
+                padding: '8px 14px',
                 borderRadius: '6px',
-                fontSize: '0.82rem',
+                fontSize: '0.78rem',
                 fontWeight: 700,
                 letterSpacing: '0.04em',
                 cursor: 'pointer',
-                boxShadow: '0 2px 12px rgba(229, 9, 20, 0.4)'
+                boxShadow: '0 2px 12px rgba(229, 9, 20, 0.4)',
+                transition: 'all 0.2s ease'
               }}
             >
-              <ArrowLeft size={15} />
-              BACK TO CINEMA
+              <ArrowLeft size={14} />
+              <span className="hide-on-mobile">CINEMA SITE</span>
+            </button>
+
+            {/* Mobile Hamburger Menu Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="mobile-toggle-btn"
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--border-subtle)',
+                color: '#F5F5F5',
+                width: '40px',
+                height: '40px',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+              aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Navigation Menu'}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
       </header>
+
+      {/* Fullscreen Mobile Cinematic Overlay Menu */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            backgroundColor: 'rgba(8, 8, 8, 0.98)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '32px 24px',
+            animation: 'fadeIn 0.3s ease-out'
+          }}
+        >
+          {/* Header in Overlay: Exact Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <img
+              src="/logo-darkmode.png"
+              alt="MC Squad"
+              style={{ height: '44px', width: 'auto', objectFit: 'contain' }}
+            />
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                background: 'none',
+                border: '1px solid var(--border-subtle)',
+                color: '#FFF',
+                width: '42px',
+                height: '42px',
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+              aria-label="Close navigation"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Links */}
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '18px', margin: '24px 0' }}>
+            {[
+              { name: 'HOME', href: '#home', id: 'home' },
+              { name: 'TEAM', href: '#team', id: 'team' },
+              { name: 'FILMS', href: '#films', id: 'films' },
+              { name: 'MUSIC WEB', href: '#music', id: 'music', isCurrent: true },
+              { name: 'VIDEOS', href: '#videos', id: 'videos' },
+              { name: 'JOIN CREW', href: '#join-team', id: 'join-team' },
+              { name: 'ABOUT', href: '#about', id: 'about' },
+              { name: 'CONTACT', href: '#contact', id: 'contact' },
+            ].map((link, idx) => (
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  if (link.isCurrent) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  } else {
+                    onBackToCinema(link.href);
+                  }
+                }}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(1.6rem, 5.5vw, 2.2rem)',
+                  textDecoration: 'none',
+                  color: link.isCurrent ? 'var(--brand-red)' : '#F5F5F5',
+                  letterSpacing: '0.08em',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px',
+                  transition: 'transform 0.2s ease, color 0.2s ease'
+                }}
+              >
+                <span style={{ fontSize: '0.85rem', fontFamily: 'var(--font-body)', color: 'var(--brand-red)', fontWeight: 700 }}>
+                  0{idx + 1}
+                </span>
+                {link.name}
+              </a>
+            ))}
+          </nav>
+
+          {/* Footer in Overlay */}
+          <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '20px' }}>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '12px' }}>
+              Independent Cinema &amp; Original Sound
+            </p>
+            <div style={{ display: 'flex', gap: '14px' }}>
+              <a
+                href="https://www.instagram.com/mc_squad_offical/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-icon"
+                aria-label="Official Instagram @mc_squad_offical"
+                title="Follow @mc_squad_offical on Instagram"
+              >
+                <InstagramIcon size={18} />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 2. MINIMALIST SEGMENTED CONTROL BAR */}
       <section
@@ -2240,47 +2714,16 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               </button>
             </div>
 
-            {/* Scrub Progress Bar */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%' }}>
-              <span style={{ fontSize: '0.74rem', color: isPlaying ? '#FFFFFF' : '#71717A', fontFamily: 'monospace', minWidth: '40px', textAlign: 'right', fontWeight: isPlaying ? 700 : 400 }}>
-                {formatTime(currentTime)}
-              </span>
-
-              <div
-                style={{
-                  position: 'relative',
-                  flexGrow: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '16px'
-                }}
-              >
-                <input
-                  type="range"
-                  min="0"
-                  max={duration || 100}
-                  step="0.1"
-                  value={currentTime}
-                  onMouseDown={handleSeekStart}
-                  onTouchStart={handleSeekStart}
-                  onChange={handleSeekChange}
-                  onMouseUp={handleSeekCommit}
-                  onTouchEnd={handleSeekCommit}
-                  style={{
-                    width: '100%',
-                    height: '4px',
-                    accentColor: 'var(--brand-red)',
-                    cursor: 'pointer',
-                    borderRadius: '2px'
-                  }}
-                  className="spotify-scrub-input"
-                />
-              </div>
-
-              <span style={{ fontSize: '0.74rem', color: '#71717A', fontFamily: 'monospace', minWidth: '40px' }}>
-                {formatTime(duration)}
-              </span>
-            </div>
+            {/* Spotify-Level Precision Track Scrubber Bar (Desktop Dock) */}
+            <SpotifyTrackSlider
+              currentTime={currentTime}
+              duration={duration}
+              onSeekStart={handleSeekStart}
+              onSeekChange={handleSeekChange}
+              onSeekCommit={handleSeekCommit}
+              isPlaying={isPlaying}
+              layout="inline"
+            />
           </div>
 
           {/* Right: Tactile Quick Actions (Desktop) & Mobile Quick Play */}
@@ -2593,35 +3036,16 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
 
           {/* Bottom Control Section */}
           <div style={{ width: '100%', maxWidth: '420px', margin: '0 auto' }}>
-            {/* Scrubber Progress Slider */}
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                <span style={{ fontSize: '0.78rem', color: '#A1A1AA', fontFamily: 'monospace', fontWeight: 600 }}>
-                  {formatTime(currentTime)}
-                </span>
-                <span style={{ fontSize: '0.78rem', color: '#71717A', fontFamily: 'monospace' }}>
-                  {formatTime(duration)}
-                </span>
-              </div>
-
-              <input
-                type="range"
-                min="0"
-                max={duration || 100}
-                step="0.1"
-                value={currentTime}
-                onMouseDown={handleSeekStart}
-                onTouchStart={handleSeekStart}
-                onChange={handleSeekChange}
-                onMouseUp={handleSeekCommit}
-                onTouchEnd={handleSeekCommit}
-                style={{
-                  width: '100%',
-                  height: '6px',
-                  accentColor: 'var(--brand-red)',
-                  cursor: 'pointer',
-                  borderRadius: '3px'
-                }}
+            {/* Spotify-Level Precision Track Scrubber Bar (Stacked Layout matching Reference) */}
+            <div style={{ marginBottom: '24px' }}>
+              <SpotifyTrackSlider
+                currentTime={currentTime}
+                duration={duration}
+                onSeekStart={handleSeekStart}
+                onSeekChange={handleSeekChange}
+                onSeekCommit={handleSeekCommit}
+                isPlaying={isPlaying}
+                layout="stacked"
               />
             </div>
 
@@ -2830,6 +3254,22 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
         }
         .queue-item-row:hover {
           background-color: rgba(255, 255, 255, 0.06) !important;
+        }
+        @media (min-width: 992px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-toggle-btn {
+            display: none !important;
+          }
+        }
+        @media (max-width: 991px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-toggle-btn {
+            display: flex !important;
+          }
         }
         @media (max-width: 768px) {
           .hide-on-mobile {
