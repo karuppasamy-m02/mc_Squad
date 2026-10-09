@@ -97,7 +97,7 @@ export default function App() {
           onReplayIntro={() => setShowCinemaIntro(true)}
         />
 
-        {/* Team of MC Squad (5 Core Members) */}
+        {/* Team of MC Squad (4 Core Members) */}
         <ArtistIntro />
 
         {/* Film Production Showcase */}

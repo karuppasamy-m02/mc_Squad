@@ -31,7 +31,7 @@ export default function VideoSection() {
       status: 'IN 24 FPS EDITORIAL ASSEMBLY',
       spec: '4K HIGH-CONTRAST • 808 SYNC',
       desc: 'Raw street-level hip-hop cypher featuring high-energy performance, underground night lights, and heavy bass synchronization.',
-      credits: 'Vocals: Mani & Kumaren • Cam: Ragesh K.R • Cut: Bharath Vaj • Choreo: Nandha Kumar'
+      credits: 'Performance: Mani • Cam: Ragesh K.R • Cut: Bharath Vaj • Choreo: Nandha Kumar'
     },
     {
       code: 'REEL #03',
@@ -209,7 +209,7 @@ export default function VideoSection() {
                     marginBottom: '26px'
                   }}
                 >
-                  Official music videos, narrative cyphers, and 4K trailers are currently undergoing final DI color grading by <strong>Ragesh K.R</strong>, sound design &amp; beats by <strong>Mani</strong>, energetic vocals by <strong>Kumaren</strong>, high-voltage choreography by <strong>Nandha Kumar</strong>, and surgical timeline cut by <strong>Bharath Vaj</strong>. Releases will drop right here in the MC Squad theater portal.
+                  Official music videos, narrative cyphers, and 4K trailers are currently undergoing final DI color grading by <strong>Ragesh K.R</strong>, sound design &amp; beats by <strong>Mani</strong>, high-voltage choreography by <strong>Nandha Kumar</strong>, and surgical timeline cut by <strong>Bharath Vaj</strong>. Releases will drop right here in the MC Squad theater portal.
                 </p>
 
                 {/* Technical Parameters Matrix */}

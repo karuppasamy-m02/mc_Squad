@@ -149,7 +149,8 @@ export default function ArtistIntro() {
         'Pacing & Dramatic Rhythm',
         'Post-Production Assembly'
       ]
-    },
+    }
+    /* Temporarily removed: Kumaren (Singer & Editor)
     {
       id: 5,
       num: '05',
@@ -165,7 +166,7 @@ export default function ArtistIntro() {
       accentColor: '#ec4899',
       badges: ['SINGER & VOCALIST', 'FILM EDITOR', 'VOCAL CADENCE'],
       spec: 'TAMIL MELODIC VOCALS • CYPHER BARS • TIMELINE ASSEMBLY',
-      bio: 'Dual creative powerhouse in MC Squad commanding expressive vocal performances and meticulous timeline editing. Delivers energetic melodies and soulful Tamil vocal hooks while sharpening video edits with musical rhythm and surgical precision.',
+      bio: 'Dual creative powerhouse in MC Squad commanding expressive vocal performances and meticulous timeline editing.',
       pipeline: 'Vocal Performance, Melodic Delivery & Video Editorial Cut',
       gear: [
         { label: 'VOCAL PROFILE', value: 'Soulful Melody & High-Energy Hooks' },
@@ -180,6 +181,7 @@ export default function ArtistIntro() {
         'Rhythmic Narrative Assembly'
       ]
     }
+    */
   ];
 
   // Auto-Scroll Loop
@@ -231,7 +233,7 @@ export default function ArtistIntro() {
         borderBottom: '1px solid var(--border-subtle)',
         overflow: 'hidden'
       }}
-      aria-label="Team of MC Squad — 5 Core Creators"
+      aria-label="Team of MC Squad — 4 Core Creators"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -285,7 +287,7 @@ export default function ArtistIntro() {
                   textTransform: 'uppercase'
                 }}
               >
-                THE MC SQUAD CREW • 5 CREATIVE PILLARS
+                THE CORE CREW • 4 VISIONARY CREATORS
               </span>
             </div>
 
@@ -338,7 +340,7 @@ export default function ArtistIntro() {
           </h2>
 
           <p className="section-subtitle" style={{ margin: '0 auto', fontSize: '1.02rem', color: 'var(--text-muted)' }}>
-            Five creative pillars commanding original sound, 35mm cinematography, high-voltage choreography, surgical editing, and expressive vocals. 100% independent.
+            Four creative pillars commanding original sound, 35mm cinematography, high-voltage choreography, and surgical film editing. 100% independent.
           </p>
 
           {/* Auto-Scroll Progress Bar */}
@@ -366,12 +368,12 @@ export default function ArtistIntro() {
           )}
         </div>
 
-        {/* HEROIC 5-MEMBER CARDS LINEUP */}
+        {/* HEROIC 4-MEMBER CARDS LINEUP */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 210px), 1fr))',
-            gap: 'clamp(16px, 2.5vw, 24px)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
+            gap: 'clamp(18px, 2.8vw, 28px)',
             marginBottom: '40px'
           }}
         >
@@ -904,7 +906,7 @@ export default function ArtistIntro() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span className="pulsing-dot" style={{ backgroundColor: 'var(--brand-red)' }} />
             <span style={{ color: '#FFF', fontWeight: 700 }}>MC SQUAD CREW FORMULA:</span>
-            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (CHOREOGRAPHER) + BHARATH VAJ (EDITOR) + KUMAREN (SINGER &amp; EDITOR)</span>
+            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (CHOREOGRAPHER) + BHARATH VAJ (EDITOR)</span>
           </div>
 
           <div style={{ display: 'flex', gap: '8px' }}>
