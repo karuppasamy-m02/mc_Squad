@@ -43,17 +43,18 @@ export default function ArtistIntro() {
       imageAlt: 'Mani — Founder of MC Squad, Music Producer & Director, AD',
       icon: Disc,
       accentColor: 'var(--brand-red)',
-      badges: ['FOUNDER OF MC SQUAD', 'MUSIC PRODUCER & DIRECTOR', 'ASSISTANT DIRECTOR (AD)'],
-      spec: '24-TRACK MASTER • 32HZ 808 SUB-BASS • ON-SET AD',
-      bio: 'Founder and driving force behind MC Squad. Directs the sonic identity through heavy 808 sub-bass, original cinematic scores, and high-fidelity audio engineering while anchoring directorial vision and on-set actor execution as Assistant Director (AD).',
-      pipeline: 'Soundtrack Architecture, Music Production & Directorial Command',
+      badges: ['FOUNDER OF MC SQUAD', '🏆 2026 BEST STORYTELLING AWARD', 'MUSIC PRODUCER & DIRECTOR', 'ASSISTANT DIRECTOR (AD)'],
+      spec: '2026 STORYTELLING AWARDEE • 24-TRACK MASTER • ON-SET AD',
+      bio: 'Founder and driving creative force behind MC Squad. Recipient of the prestigious 2026 Best Storytelling Award for raw narrative realism and uncompromising cinema. Directs the sonic identity through heavy 808 sub-bass, original cinematic scores, and high-fidelity audio engineering while anchoring directorial vision and on-set execution as Assistant Director (AD).',
+      pipeline: 'Award-Winning Storytelling, Soundtrack Architecture & Directorial Command',
       gear: [
+        { label: 'HONOUR', value: '2026 Best Storytelling Award Winner' },
         { label: 'DAW & SYNTHS', value: '24-Track Master Audio Engine' },
         { label: 'BASS FREQ', value: '32Hz Low-End Sub Foundation' },
-        { label: 'ON-SET RIG', value: 'Directorial Monitor & AD Comms' },
-        { label: 'AUDIO PROFILE', value: 'Heavy Street Beats & Cinematic Score' }
+        { label: 'ON-SET RIG', value: 'Directorial Monitor & AD Comms' }
       ],
       skills: [
+        'Award-Winning Storytelling & Screenplay',
         'Original Music Production',
         '808 Sub-Bass & Beats',
         'Audio Engineering & Mastering',

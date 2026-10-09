@@ -12,7 +12,7 @@ export default function Navbar({ onOpenMusicWeb }) {
       setIsScrolled(window.scrollY > 40);
 
       // Section spy without gallery
-      const sections = ['home', 'team', 'the-character', 'films', 'music', 'videos', 'join-team', 'about', 'contact'];
+      const sections = ['home', 'team', 'achievements', 'the-character', 'films', 'music', 'videos', 'join-team', 'about', 'contact'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -32,6 +32,7 @@ export default function Navbar({ onOpenMusicWeb }) {
   const navLinks = [
     { name: 'HOME', href: '#home', id: 'home' },
     { name: 'TEAM', href: '#team', id: 'team' },
+    { name: 'AWARDS 🏆', href: '#achievements', id: 'achievements' },
     { name: 'FILMS', href: '#films', id: 'films' },
     { name: 'MUSIC WEB ↗', href: '#music', id: 'music' },
     { name: 'VIDEOS', href: '#videos', id: 'videos' },

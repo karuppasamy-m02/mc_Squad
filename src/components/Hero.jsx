@@ -121,33 +121,68 @@ export default function Hero({ onOpenMusicWeb, onListenNow, onReplayIntro }) {
         {/* Left Column: Headlines & Actions */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '100%' }}>
           {/* Film Slate Badge (Clickable to Replay Cinema Screen Intro) */}
-          <div
-            onClick={onReplayIntro}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '6px 14px',
-              backgroundColor: 'rgba(17, 17, 17, 0.9)',
-              border: '1px solid rgba(229, 9, 20, 0.45)',
-              backdropFilter: 'blur(8px)',
-              marginBottom: '20px',
-              borderRadius: '2px',
-              maxWidth: '100%',
-              cursor: onReplayIntro ? 'pointer' : 'default'
-            }}
-            title={onReplayIntro ? 'Click to replay Cinema Screen Opening Animation' : undefined}
-          >
-            <Clapperboard size={15} color="var(--brand-red)" />
-            <span style={{
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              letterSpacing: '0.22em',
-              color: '#FFFFFF',
-              textTransform: 'uppercase'
-            }}>
-              SCENE 01 • TAKE 01 • <span style={{ color: 'var(--brand-red)' }}>CINEMA IN PROGRESS</span>
-            </span>
+          {/* Top Pill Badges: Award + Scene Status */}
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '18px' }}>
+            <a
+              href="#achievements"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                border: '1px solid rgba(245, 158, 11, 0.5)',
+                backdropFilter: 'blur(8px)',
+                borderRadius: '20px',
+                textDecoration: 'none',
+                boxShadow: '0 6px 20px rgba(245, 158, 11, 0.15)',
+                transition: 'all 0.2s ease'
+              }}
+              title="Click to view 2026 Best Storytelling Award details"
+            >
+              <span style={{ fontSize: '0.85rem' }}>🏆</span>
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.14em',
+                  color: '#FCD34D',
+                  textTransform: 'uppercase',
+                  fontFamily: 'monospace'
+                }}
+              >
+                2026 WINNER • BEST STORYTELLING AWARD
+              </span>
+            </a>
+
+            <div
+              onClick={onReplayIntro}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '6px 14px',
+                backgroundColor: 'rgba(17, 17, 17, 0.9)',
+                border: '1px solid rgba(229, 9, 20, 0.45)',
+                backdropFilter: 'blur(8px)',
+                borderRadius: '20px',
+                cursor: onReplayIntro ? 'pointer' : 'default'
+              }}
+              title={onReplayIntro ? 'Click to replay Cinema Screen Opening Animation' : undefined}
+            >
+              <Clapperboard size={14} color="var(--brand-red)" />
+              <span
+                style={{
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.18em',
+                  color: '#FFFFFF',
+                  textTransform: 'uppercase'
+                }}
+              >
+                SCENE 01 • TAKE 01 • <span style={{ color: 'var(--brand-red)' }}>CINEMA IN PROGRESS</span>
+              </span>
+            </div>
           </div>
 
           {/* Prominent, Clean, Non-Glowing Logo */}

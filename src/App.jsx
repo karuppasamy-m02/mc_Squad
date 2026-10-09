@@ -5,6 +5,7 @@ import ArtistIntro from './components/ArtistIntro';
 import FilmSection from './components/FilmSection';
 import MusicSection from './components/MusicSection';
 import VideoSection from './components/VideoSection';
+import AchievementsSection from './components/AchievementsSection';
 import About from './components/About';
 import SocialSection from './components/SocialSection';
 import JoinTeamSection from './components/JoinTeamSection';
@@ -99,6 +100,9 @@ export default function App() {
 
         {/* Team of MC Squad (4 Core Members) */}
         <ArtistIntro />
+
+        {/* 2026 Best Storytelling Award & Honours */}
+        <AchievementsSection />
 
         {/* Film Production Showcase */}
         <FilmSection />
