@@ -1,9 +1,12 @@
-import React from 'react';
-import { Play, Pause } from 'lucide-react';
+import React, { useState } from 'react';
+import { Play, Pause, Heart } from 'lucide-react';
 import { InstagramIcon } from './Icons';
+import { formatLikes } from '../data/music';
 
 export default function MusicCard({ song, isPlaying, isCurrentSong, onPlayToggle }) {
   const isHeadline = song.isHeadline;
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(song.likes || 1400);
 
   return (
     <div
@@ -229,8 +232,35 @@ export default function MusicCard({ song, isPlaying, isCurrentSong, onPlayToggle
             )}
           </button>
 
-          {/* Official Instagram Link */}
+          {/* Actions: Like Button & Instagram Link */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={() => {
+                const nextLiked = !isLiked;
+                setIsLiked(nextLiked);
+                setLikeCount((prev) => (nextLiked ? prev + 1 : prev - 1));
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '6px 10px',
+                borderRadius: '2px',
+                backgroundColor: isLiked ? 'rgba(229, 9, 20, 0.15)' : 'rgba(255, 255, 255, 0.04)',
+                border: isLiked ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.1)',
+                color: isLiked ? 'var(--brand-red)' : '#D4D4D8',
+                fontSize: '0.74rem',
+                fontFamily: 'monospace',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              title={isLiked ? 'Unlike' : 'Like'}
+            >
+              <Heart size={13} fill={isLiked ? 'var(--brand-red)' : 'none'} />
+              <span>{formatLikes(likeCount)}</span>
+            </button>
+
             <a
               href={song.instagramUrl || "https://www.instagram.com/mc_squad_offical/"}
               target="_blank"

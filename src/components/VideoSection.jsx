@@ -22,7 +22,7 @@ export default function VideoSection() {
       status: 'IN COLOR GRADING (DI)',
       spec: '4K DCI • KODAK 2383 • 2.39:1',
       desc: 'The official romantic visual for Ni Eenaku. Shot on anamorphic lenses capturing intimate urban romance and midnight rain.',
-      credits: 'Dir: Mani & Ragesh K.R • Music: Mani • Edit: Nandha Kumar'
+      credits: 'Dir: Mani & Ragesh K.R • Music: Mani • Edit: Bharath Vaj • Cast: Nandha Kumar'
     },
     {
       code: 'REEL #02',
@@ -31,7 +31,7 @@ export default function VideoSection() {
       status: 'IN 24 FPS EDITORIAL ASSEMBLY',
       spec: '4K HIGH-CONTRAST • 808 SYNC',
       desc: 'Raw street-level hip-hop cypher featuring high-energy performance, underground night lights, and heavy bass synchronization.',
-      credits: 'Performance: Mani • Cam: Ragesh K.R • Cut: Nandha Kumar'
+      credits: 'Performance: Mani & Nandha Kumar • Cam: Ragesh K.R • Cut: Bharath Vaj'
     },
     {
       code: 'REEL #03',
@@ -209,7 +209,7 @@ export default function VideoSection() {
                     marginBottom: '26px'
                   }}
                 >
-                  Official music videos, narrative cyphers, and 4K trailers are currently undergoing final DI color grading by <strong>Ragesh K.R</strong>, sound design by <strong>Mani</strong>, and surgical timeline cut by <strong>Nandha Kumar</strong>. Releases will drop right here in the MC Squad theater portal.
+                  Official music videos, narrative cyphers, and 4K trailers are currently undergoing final DI color grading by <strong>Ragesh K.R</strong>, sound design by <strong>Mani</strong>, dynamic performances by <strong>Nandha Kumar</strong>, and surgical timeline cut by <strong>Bharath Vaj</strong>. Releases will drop right here in the MC Squad theater portal.
                 </p>
 
                 {/* Technical Parameters Matrix */}

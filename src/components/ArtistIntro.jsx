@@ -26,7 +26,7 @@ export default function ArtistIntro() {
   const AUTO_SCROLL_DURATION = 4500; // 4.5 seconds per member
   const TICK_INTERVAL = 50; // update progress every 50ms
 
-  // The 3 Core Members of MC Squad
+  // The 4 Core Members of MC Squad
   const teamMembers = [
     {
       id: 1,
@@ -92,23 +92,53 @@ export default function ArtistIntro() {
       id: 3,
       num: '03',
       name: 'NANDHA KUMAR',
-      title: 'CHIEF FILM EDITOR',
-      primaryRole: 'EDITOR',
-      secondaryRole: 'Post-Production Lead & Narrative Assembly',
-      tag: 'POST-PRODUCTION & CUT',
+      title: 'LEAD ARTIST & ACTOR',
+      primaryRole: 'LEAD ARTIST • CHARACTER ACTOR',
+      secondaryRole: 'Visual Performer & Screen Presence',
+      tag: 'LEAD ACTOR & SCREEN PRESENCE',
       isFounder: false,
-      image: '/Team/editor.png',
-      imageAlt: 'Nandha Kumar — Editor of MC Squad',
+      image: '/Team/Nandha.png',
+      imageAlt: 'Nandha Kumar — Lead Artist & Actor of MC Squad',
+      icon: Award,
+      accentColor: '#f59e0b',
+      badges: ['LEAD ARTIST & ACTOR', 'METHOD PERFORMANCE', 'SCREEN PRESENCE'],
+      spec: 'METHOD ACTING • EMOTIONAL DEPTH • RAW INTENSITY',
+      bio: 'Front-line screen presence and lead actor of MC Squad. Delivers raw, grounded performances that bring intensity, emotional resonance, and authenticity to indie feature storylines and cinematic music visuals.',
+      pipeline: 'Character Realism, Dramatic Intensity & Screen Craft',
+      gear: [
+        { label: 'ACTING STYLE', value: 'Method Acting & Raw Street Realism' },
+        { label: 'ROLES', value: 'Lead Protagonist & Intense Dramas' },
+        { label: 'EXPRESSION', value: 'Emotional Arc & Focused Screen Presence' },
+        { label: 'STAGE PRESENCE', value: 'Dynamic On-Camera Physicality' }
+      ],
+      skills: [
+        'Lead Character Acting',
+        'Dramatic Dialogue Delivery',
+        'Method & Screen Performance',
+        'High-Intensity Emotional Range'
+      ]
+    },
+    {
+      id: 4,
+      num: '04',
+      name: 'BHARATH VAJ',
+      title: 'CHIEF FILM EDITOR',
+      primaryRole: 'CHIEF FILM EDITOR',
+      secondaryRole: 'Post-Production Lead & Narrative Assembly',
+      tag: 'POST-PRODUCTION & CINEMATIC CUT',
+      isFounder: false,
+      image: '/Team/Bharath.png',
+      imageAlt: 'Bharath Vaj — Chief Film Editor of MC Squad',
       icon: Scissors,
-      accentColor: '#fbbf24',
-      badges: ['EDITOR', 'POST-PRODUCTION LEAD', '24 FPS ASSEMBLY'],
-      spec: '24 FPS CONTINUITY • NARRATIVE TIMELINE • DAVINCI 4K',
-      bio: 'Carves narrative momentum and dramatic tension through surgical cuts, seamless 24 FPS continuity, and rhythmic pacing. Refines every frame to ensure story beats hit with raw, unflinching impact.',
+      accentColor: '#10b981',
+      badges: ['CHIEF FILM EDITOR', 'POST-PRODUCTION LEAD', '24 FPS ASSEMBLY'],
+      spec: '24 FPS CONTINUITY • NARRATIVE TIMELINE • SURGICAL CUTS',
+      bio: 'Editorial architect of MC Squad cinema. Carves narrative momentum and dramatic tension through surgical cuts, seamless 24 FPS continuity, and visceral rhythmic pacing across films and music videos.',
       pipeline: 'Film Editorial Assembly & Narrative Rhythm',
       gear: [
         { label: 'EDIT SUITE', value: '4K DCI Precision Timeline' },
         { label: 'FRAME RATE', value: '24.000 FPS True Cinematic Sync' },
-        { label: 'CUTTING STYLE', value: 'Rhythmic Momentum & Tension' },
+        { label: 'CUTTING STYLE', value: 'Rhythmic Momentum & Dramatic Tension' },
         { label: 'FINISHING', value: 'Multi-Track Master Film Assembly' }
       ],
       skills: [
@@ -169,7 +199,7 @@ export default function ArtistIntro() {
         borderBottom: '1px solid var(--border-subtle)',
         overflow: 'hidden'
       }}
-      aria-label="Team of MC Squad — 3 Core Creators"
+      aria-label="Team of MC Squad — 4 Core Creators"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -194,7 +224,7 @@ export default function ArtistIntro() {
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section Header & Auto-Scroll Controller */}
         <div style={{ marginBottom: '40px', textAlign: 'center', maxWidth: '840px', margin: '0 auto 40px auto' }}>
-          {/* Top Pill: Trio Badge + Auto-Scroll Toggle */}
+          {/* Top Pill: Core Crew Badge + Auto-Scroll Toggle */}
           <div
             style={{
               display: 'inline-flex',
@@ -223,7 +253,7 @@ export default function ArtistIntro() {
                   textTransform: 'uppercase'
                 }}
               >
-                THE POWER TRIO • 3 CORE CREATORS
+                THE CORE CREW • 4 VISIONARY CREATORS
               </span>
             </div>
 
@@ -276,7 +306,7 @@ export default function ArtistIntro() {
           </h2>
 
           <p className="section-subtitle" style={{ margin: '0 auto', fontSize: '1.02rem', color: 'var(--text-muted)' }}>
-            Three creative pillars commanding original sound, 35mm cinematography, and surgical film editing. 100% independent.
+            Four creative pillars commanding original sound, 35mm cinematography, lead artistic performance, and surgical film editing. 100% independent.
           </p>
 
           {/* Auto-Scroll Progress Bar */}
@@ -304,12 +334,12 @@ export default function ArtistIntro() {
           )}
         </div>
 
-        {/* REDESIGNED HEROIC 3-MEMBER CARDS LINEUP */}
+        {/* HEROIC 4-MEMBER CARDS LINEUP */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-            gap: 'clamp(20px, 3vw, 32px)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
+            gap: 'clamp(20px, 3vw, 28px)',
             marginBottom: '40px'
           }}
         >
@@ -779,10 +809,10 @@ export default function ArtistIntro() {
             color: 'var(--text-muted)'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span className="pulsing-dot" style={{ backgroundColor: 'var(--brand-red)' }} />
-            <span style={{ color: '#FFF', fontWeight: 700 }}>MC SQUAD TRIO FORMULA:</span>
-            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (EDITING)</span>
+            <span style={{ color: '#FFF', fontWeight: 700 }}>MC SQUAD CREW FORMULA:</span>
+            <span>MANI (MUSIC &amp; AD) + RAGESH K.R (DoP &amp; DIRECTING) + NANDHA KUMAR (LEAD ARTIST) + BHARATH VAJ (EDITING)</span>
           </div>
 
           <div style={{ display: 'flex', gap: '8px' }}>

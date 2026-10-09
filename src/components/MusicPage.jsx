@@ -31,7 +31,7 @@ import {
   ChevronDown,
   Menu
 } from 'lucide-react';
-import { musicData, headlineTracks, spotifyTheme } from '../data/music';
+import { musicData, headlineTracks, spotifyTheme, formatLikes } from '../data/music';
 import { InstagramIcon } from './Icons';
 
 // Helper to convert "MM:SS" duration to total seconds
@@ -269,6 +269,13 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
   const [showMobileFullPlayer, setShowMobileFullPlayer] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [likedSongIds, setLikedSongIds] = useState(new Set(['love-01', 'family-01', 'hiphop-01']));
+  const [likesMap, setLikesMap] = useState(() => {
+    const map = {};
+    musicData.forEach((s) => {
+      map[s.id] = s.likes || 1400;
+    });
+    return map;
+  });
   const [copied, setCopied] = useState(false);
 
   // Initialize and handle incoming song
@@ -460,10 +467,18 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
   };
 
   const toggleLike = (songId) => {
+    if (!songId) return;
     setLikedSongIds((prev) => {
       const next = new Set(prev);
-      if (next.has(songId)) next.delete(songId);
-      else next.add(songId);
+      const isNowLiked = !next.has(songId);
+      if (isNowLiked) next.add(songId);
+      else next.delete(songId);
+
+      setLikesMap((prevLikes) => ({
+        ...prevLikes,
+        [songId]: Math.max(0, (prevLikes[songId] || 1200) + (isNowLiked ? 1 : -1))
+      }));
+
       return next;
     });
   };
@@ -1379,6 +1394,28 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                   <InstagramIcon size={16} />
                   <span>@MC_SQUAD_OFFICAL</span>
                 </a>
+
+                <button
+                  onClick={() => toggleLike(currentSong?.id)}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '7px',
+                    backgroundColor: likedSongIds.has(currentSong?.id) ? 'rgba(229, 9, 20, 0.16)' : 'rgba(255, 255, 255, 0.06)',
+                    border: likedSongIds.has(currentSong?.id) ? '1px solid var(--brand-red)' : '1px solid rgba(255, 255, 255, 0.12)',
+                    color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#FFFFFF',
+                    padding: '12px 18px',
+                    borderRadius: '6px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                  title={likedSongIds.has(currentSong?.id) ? 'Liked' : 'Like'}
+                >
+                  <Heart size={16} fill={likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : 'none'} />
+                  <span>{formatLikes(likesMap[currentSong?.id] || currentSong?.likes)} LIKES</span>
+                </button>
               </div>
             </div>
           </div>
@@ -1659,13 +1696,20 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                             style={{
                               background: 'none',
                               border: 'none',
-                              color: isLiked ? 'var(--brand-red)' : '#71717A',
+                              color: isLiked ? 'var(--brand-red)' : '#A1A1AA',
                               cursor: 'pointer',
-                              padding: '4px'
+                              padding: '4px 6px',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                              fontSize: '0.78rem',
+                              fontWeight: 600,
+                              fontFamily: 'monospace'
                             }}
                             title={isLiked ? 'Unlike' : 'Like'}
                           >
-                            <Heart size={18} fill={isLiked ? 'var(--brand-red)' : 'none'} />
+                            <Heart size={16} fill={isLiked ? 'var(--brand-red)' : 'none'} />
+                            <span>{formatLikes(likesMap[song.id] || song.likes)}</span>
                           </button>
 
                           <a
@@ -1839,7 +1883,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '48px 1fr 180px 100px 120px 48px',
+                  gridTemplateColumns: '48px 1fr 180px 100px 120px 80px',
                   padding: '12px 20px',
                   borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
                   fontSize: '0.72rem',
@@ -1870,7 +1914,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                       key={song.id}
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: '48px 1fr 180px 100px 120px 48px',
+                        gridTemplateColumns: '48px 1fr 180px 100px 120px 80px',
                         padding: '12px 20px',
                         alignItems: 'center',
                         backgroundColor: isCur ? 'rgba(229, 9, 20, 0.12)' : 'transparent',
@@ -1987,7 +2031,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                         </a>
                       </div>
 
-                      {/* Like Heart */}
+                      {/* Like Heart & Count */}
                       <div
                         style={{ textAlign: 'center' }}
                         onClick={(e) => {
@@ -2001,11 +2045,18 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                             border: 'none',
                             cursor: 'pointer',
                             color: isLiked ? 'var(--brand-red)' : '#71717A',
-                            padding: '4px'
+                            padding: '4px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontSize: '0.74rem',
+                            fontFamily: 'monospace',
+                            fontWeight: 600
                           }}
                           title={isLiked ? 'Liked' : 'Like'}
                         >
-                          <Heart size={16} fill={isLiked ? 'var(--brand-red)' : 'none'} />
+                          <Heart size={14} fill={isLiked ? 'var(--brand-red)' : 'none'} />
+                          <span>{formatLikes(likesMap[song.id] || song.likes)}</span>
                         </button>
                       </div>
                     </div>
@@ -2224,7 +2275,7 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               </span>
             </div>
 
-            {/* Heart Button */}
+            {/* Heart Button with Like Count */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -2232,17 +2283,25 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
               }}
               className="tactile-circle-btn"
               style={{
-                width: '36px',
-                height: '36px',
-                color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#71717A',
+                height: '34px',
+                padding: '0 10px',
+                borderRadius: '17px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#A1A1AA',
+                fontSize: '0.74rem',
+                fontFamily: 'monospace',
+                fontWeight: 700,
                 flexShrink: 0
               }}
               title={likedSongIds.has(currentSong?.id) ? 'Liked' : 'Like'}
             >
               <Heart
-                size={16}
+                size={14}
                 fill={likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : 'none'}
               />
+              <span>{formatLikes(likesMap[currentSong?.id] || currentSong?.likes)}</span>
             </button>
           </div>
 
@@ -2765,13 +2824,21 @@ export default function MusicPage({ onBackToCinema, initialSong = null }) {
                 onClick={() => toggleLike(currentSong?.id)}
                 className="tactile-circle-btn"
                 style={{
-                  width: '44px',
                   height: '44px',
-                  color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#71717A'
+                  padding: '0 14px',
+                  borderRadius: '22px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  color: likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : '#A1A1AA',
+                  fontSize: '0.8rem',
+                  fontFamily: 'monospace',
+                  fontWeight: 700
                 }}
                 aria-label="Like track"
               >
                 <Heart size={18} fill={likedSongIds.has(currentSong?.id) ? 'var(--brand-red)' : 'none'} />
+                <span>{formatLikes(likesMap[currentSong?.id] || currentSong?.likes)}</span>
               </button>
 
               <a
